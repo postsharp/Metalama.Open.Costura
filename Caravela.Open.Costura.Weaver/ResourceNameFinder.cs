@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Caravela.Open.Costura
+namespace Caravela.Open.Costura.Weaver
 {
     public class ResourceNameFinder
     {

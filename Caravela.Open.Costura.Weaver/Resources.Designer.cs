@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Caravela.Open.Costura {
+namespace Caravela.Open.Costura.Weaver {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Caravela.Open.Costura {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Caravela.Open.Costura.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Caravela.Open.Costura.Weaver.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -75,12 +75,12 @@ namespace Caravela.Open.Costura {
         ///
         ///// ReSharper disable CommentTypo
         ///
-        ///namespace Caravela.Open.Costura.Templates
+        ///namespace Caravela.Open.Costura.Weaver.Templates
         ///{
         ///    internal static class Common
         ///    {
         ///        [DllImport(&quot;kernel32&quot;, SetLastError = true, CharSet = CharSet.Unicode)]
-        /// [rest of string was truncated]&quot;;.
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Common {
             get {
@@ -98,7 +98,7 @@ namespace Caravela.Open.Costura {
         ///    public sealed class ModuleInitializerAttribute : Attribute { }
         ///}
         ///
-        ///namespace Caravela.Open.Costura.Templates
+        ///namespace Caravela.Open.Costura.Weaver.Templates
         ///{
         ///    static class ModuleInitializer
         ///    {
@@ -122,7 +122,7 @@ namespace Caravela.Open.Costura {
         ///using System.Reflection;
         ///using System.Threading;
         ///
-        ///namespace Caravela.Open.Costura.Templates
+        ///namespace Caravela.Open.Costura.Weaver.Templates
         ///{
         ///    internal static class Template
         ///    {
@@ -130,7 +130,7 @@ namespace Caravela.Open.Costura {
         ///        static Dictionary&lt;string, bool&gt; nullCache = new Dictionary&lt;string, bool&gt;();
         ///
         ///        static Dictionary&lt;string, string&gt; assemblyNames = new Dictionary&lt;string, string&gt;();
-        ///        static Dictionary&lt;string, string&gt; symbolNames = new Dictionary&lt;string, str [rest of string was truncated]&quot;;.
+        ///        static Dictionary&lt;string, string&gt; symbolNames = new Dictionary&lt;string, string&gt; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Template {
             get {
@@ -145,7 +145,7 @@ namespace Caravela.Open.Costura {
         ///using System.Reflection;
         ///using System.Threading;
         ///
-        ///namespace Caravela.Open.Costura.Templates
+        ///namespace Caravela.Open.Costura.Weaver.Templates
         ///{
         ///    internal static class TemplateWithTempAssembly
         ///    {
@@ -155,7 +155,7 @@ namespace Caravela.Open.Costura {
         ///        static string tempBasePath;
         ///
         ///        static List&lt;string&gt; preloadList = new List&lt;string&gt;();
-        ///        static List&lt;string&gt; preload32Li [rest of string was truncated]&quot;;.
+        ///        static List&lt;string&gt; preload32List = [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TemplateWithTempAssembly {
             get {
@@ -170,7 +170,7 @@ namespace Caravela.Open.Costura {
         ///using System.Reflection;
         ///using System.Threading;
         ///
-        ///namespace Caravela.Open.Costura.Templates
+        ///namespace Caravela.Open.Costura.Weaver.Templates
         ///{
         ///    internal static class TemplateWithUnmanagedHandler
         ///    {
@@ -180,7 +180,7 @@ namespace Caravela.Open.Costura {
         ///        static string tempBasePath;
         ///
         ///        static Dictionary&lt;string, string&gt; assemblyNames = new Dictionary&lt;string, string&gt;();
-        ///       [rest of string was truncated]&quot;;.
+        ///        st [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TemplateWithUnmanagedHandler {
             get {

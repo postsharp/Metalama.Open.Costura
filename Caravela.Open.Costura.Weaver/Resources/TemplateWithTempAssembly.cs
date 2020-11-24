@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 
-namespace Caravela.Open.Costura.Templates
+namespace Caravela.Open.Costura.Weaver.Templates
 {
     internal static class TemplateWithTempAssembly
     {

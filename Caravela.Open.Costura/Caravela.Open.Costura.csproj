@@ -1,29 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>8.0</LangVersion>
-    <CaravelaExportAspects>true</CaravelaExportAspects>
+    <!-- dotnet restore requires unique package names for all projects -->
+    <PackageId>Caravela.Open.Costura.Redist</PackageId>
+    <!-- the code from this project is included in the main package, so prevent creating a separate package from this project -->
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Caravela.Framework.Sdk" Version="0.1.20" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Resources\*.cs" />
-    <None Include="Resources\*.cs" />
-
-    <Compile Update="Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  
-    <EmbeddedResource Update="Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <PackageReference Include="Caravela.Framework" Version="0.1.31" />
   </ItemGroup>
 
 </Project>

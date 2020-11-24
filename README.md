@@ -3,7 +3,7 @@ Embeds dependencies as resources so that you can have a standalone executable.
 
 This source transformer only works under .NET Framework. In .NET Core, we recommend upgrading to .NET Core 3 or later and using [the single file executable feature](https://docs.microsoft.com/en-us/dotnet/core/deploying/single-file) instead.
 
-*This is a [Caravela](https://postsharp.net/caravela) aspect. It modifies your code during compilation by using source weaving.*
+*This is a [Caravela](https://github.com/postsharp/Caravela) aspect. It modifies your code during compilation by using source weaving.*
 
 [![CI badge](https://github.com/postsharp/Caravela.Open.Costura/workflows/Full%20Pipeline/badge.svg)](https://github.com/postsharp/Caravela.Open.Costura/actions?query=workflow%3A%22Full+Pipeline%22)
 

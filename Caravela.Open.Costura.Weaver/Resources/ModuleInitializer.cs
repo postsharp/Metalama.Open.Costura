@@ -7,7 +7,7 @@ namespace System.Runtime.CompilerServices
     public sealed class ModuleInitializerAttribute : Attribute { }
 }
 
-namespace Caravela.Open.Costura.Templates
+namespace Caravela.Open.Costura.Weaver.Templates
 {
     static class ModuleInitializer
     {

@@ -1,7 +1,7 @@
 ﻿using Caravela.Framework.Sdk;
 using Microsoft.CodeAnalysis;
 
-namespace Caravela.Open.Costura
+namespace Caravela.Open.Costura.Weaver
 {
     public static class Configuration
     {

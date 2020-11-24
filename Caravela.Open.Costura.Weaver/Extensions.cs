@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-namespace Caravela.Open.Costura
+namespace Caravela.Open.Costura.Weaver
 {
     public static class Extensions
     {

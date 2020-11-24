@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Caravela.Open.Costura
+namespace Caravela.Open.Costura.Weaver
 {
     public static class ResourceHash
     {

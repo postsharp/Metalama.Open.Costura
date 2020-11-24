@@ -4,6 +4,8 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net472</TargetFramework>
     <LangVersion>9.0</LangVersion>
+    <!-- this property decides whether the weaver is referenced as a project (common for projects in the same solution) or as a NuGet package -->
+    <UsePackageReference Condition="'$(UsePackageReference)' == ''">false</UsePackageReference>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,9 +14,32 @@
     <PackageReference Include="xunit.assert" Version="2.4.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Caravela.Open.Costura\Caravela.Open.Costura.csproj" />
-    <PackageReference Include="Caravela.Framework" Version="0.1.20" />
-  </ItemGroup>
+  <Choose>
+    <When Condition="$(UsePackageReference) != 'true'">
+
+      <!-- to reference the weaver as a project, we need to add these three references separately -->
+      <!-- OutputItemType="Analyzer" on the two ProjectReferences is needed so that Caravela can execute the weaver at build time -->
+      <!-- ReferenceOutputAssembly="false" ensures that this project does not have access to libraries that it shouldn't: Caravela SDK and Roslyn -->
+      <ItemGroup>
+        <ProjectReference Include="..\Caravela.Open.Costura.Weaver\Caravela.Open.Costura.Weaver.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <ProjectReference Include="..\Caravela.Open.Costura\Caravela.Open.Costura.csproj" OutputItemType="Analyzer" />
+        <PackageReference Include="Caravela.Framework" Version="0.1.31" />
+      </ItemGroup>
+
+    </When>
+    <Otherwise>
+
+      <!-- to reference the weaver as a package, this one line is mostly enough -->
+      <ItemGroup>
+        <PackageReference Include="Caravela.Open.Costura" Version="0.1.1" />
+      </ItemGroup>
+      <!-- we also need to add a NuGet source that points to where the weaver package is located -->
+      <!-- this is not necessary if the weaver package is on NuGet.org, or another configured package source -->
+      <PropertyGroup>
+        <RestoreAdditionalProjectSources>$(OutputPath)</RestoreAdditionalProjectSources>
+      </PropertyGroup>
+
+    </Otherwise>
+  </Choose>
 
 </Project>

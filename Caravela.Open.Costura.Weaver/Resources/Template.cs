@@ -1,46 +1,26 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using System.Threading;
 
-namespace Caravela.Open.Costura.Templates
+namespace Caravela.Open.Costura.Weaver.Templates
 {
-    internal static class TemplateWithUnmanagedHandler
+    internal static class Template
     {
         static object nullCacheLock = new object();
         static Dictionary<string, bool> nullCache = new Dictionary<string, bool>();
 
-        static string tempBasePath;
-
         static Dictionary<string, string> assemblyNames = new Dictionary<string, string>();
         static Dictionary<string, string> symbolNames = new Dictionary<string, string>();
 
-        static List<string> preload32List = new List<string>();
-        static List<string> preload64List = new List<string>();
-
-        static Dictionary<string, string> checksums = new Dictionary<string, string>();
-
         static int isAttached;
 
-#pragma warning disable 649
-        private static string md5Hash;
-#pragma warning restore 649
-        
         public static void Attach()
         {
             if (Interlocked.Exchange(ref isAttached, 1) == 1)
             {
                 return;
             }
-
-            //Create a unique Temp directory for the application path.
-            var prefixPath = Path.Combine(Path.GetTempPath(), "Costura");
-            tempBasePath = Path.Combine(prefixPath, md5Hash);
-
-            // Preload
-            var unmanagedAssemblies = IntPtr.Size == 8 ? preload64List : preload32List;
-            Common.PreloadUnmanagedLibraries(md5Hash, tempBasePath, unmanagedAssemblies, checksums);
 
             var currentDomain = AppDomain.CurrentDomain;
             currentDomain.AssemblyResolve += ResolveAssembly;
@@ -65,12 +45,6 @@ namespace Caravela.Open.Costura.Templates
             }
 
             Common.Log("Loading assembly '{0}' into the AppDomain", requestedAssemblyName);
-
-            assembly = Common.ReadFromDiskCache(tempBasePath, requestedAssemblyName);
-            if (assembly != null)
-            {
-                return assembly;
-            }
 
             assembly = Common.ReadFromEmbeddedResources(assemblyNames, symbolNames, requestedAssemblyName);
             if (assembly == null)

@@ -12,7 +12,7 @@ using System.Threading;
 
 // ReSharper disable CommentTypo
 
-namespace Caravela.Open.Costura.Templates
+namespace Caravela.Open.Costura.Weaver.Templates
 {
     internal static class Common
     {

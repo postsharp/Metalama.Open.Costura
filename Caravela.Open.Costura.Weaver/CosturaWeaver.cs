@@ -8,9 +8,9 @@ using System.Linq;
 
 [assembly: CompileTime]
 
-namespace Caravela.Open.Costura
+namespace Caravela.Open.Costura.Weaver
 {
-    [AspectWeaver( typeof( CosturaAspect ) )]
+    [CompilerPlugin, AspectWeaver( typeof( CosturaAspect ) )]
     public class CosturaWeaver : IAspectWeaver
     {
         public CSharpCompilation Transform( AspectWeaverContext context )

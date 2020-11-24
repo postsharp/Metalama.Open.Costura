@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Caravela.Open.Costura
+namespace Caravela.Open.Costura.Weaver
 {
     /// <summary>
     /// Multiple streams rolled into one. Read-only. Comes from https://stackoverflow.com/a/3879231/1580088.
