@@ -18,7 +18,7 @@
       <ItemGroup>
         <ProjectReference Include="..\Caravela.Open.DependencyEmbedder.Weaver\Caravela.Open.DependencyEmbedder.Weaver.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
         <ProjectReference Include="..\Caravela.Open.DependencyEmbedder\Caravela.Open.DependencyEmbedder.csproj" OutputItemType="Analyzer" />
-        <PackageReference Include="Caravela.Framework" Version="0.1.59" />
+        <PackageReference Include="Caravela.Framework" Version="0.1.0-preview" />
       </ItemGroup>
 
     </When>
@@ -26,7 +26,7 @@
 
       <!-- to reference the weaver as a package, this one line is mostly enough -->
       <ItemGroup>
-        <PackageReference Include="Caravela.Open.DependencyEmbedder" Version="0.1.2" />
+        <PackageReference Include="Caravela.Open.DependencyEmbedder" Version="0.1.0-preview" />
       </ItemGroup>
       <!-- we also need to add a NuGet source that points to where the weaver package is located -->
       <!-- this is not necessary if the weaver package is on NuGet.org, or another configured package source -->
