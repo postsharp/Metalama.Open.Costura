@@ -15,21 +15,19 @@ namespace Caravela.Open.DependencyEmbedder.Weaver
                 .Where(r => r.Name.StartsWith("DependencyEmbedder"))
                 .Select(r => r.Stream)
                 .ToArray();
-            ConcatenatedStream allStream = new ConcatenatedStream(data);
-            
-            using (var md5 = MD5.Create())
+            var allStream = new ConcatenatedStream(data);
+
+            using var md5 = MD5.Create();
+            var hashBytes = md5.ComputeHash(allStream);
+
+            var sb = new StringBuilder();
+            foreach (var t in hashBytes)
             {
-                var hashBytes = md5.ComputeHash(allStream);
-            
-                var sb = new StringBuilder();
-                for (var i = 0; i < hashBytes.Length; i++)
-                {
-                    sb.Append(hashBytes[i].ToString("X2"));
-                }
-                
-                allStream.ResetAllToZero();
-                return sb.ToString();
+                sb.Append(t.ToString("X2"));
             }
+
+            allStream.ResetAllToZero();
+            return sb.ToString();
         }
     }
 }

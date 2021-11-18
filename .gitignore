@@ -4,3 +4,4 @@ obj/
 *.binlog
 *.diagsession
 launchsettings.json
+*.local

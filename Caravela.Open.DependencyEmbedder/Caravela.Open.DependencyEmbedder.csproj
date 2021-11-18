@@ -1,15 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <!-- dotnet restore requires unique package names for all projects -->
-    <PackageId>Caravela.Open.DependencyEmbedder.Redist</PackageId>
-    <!-- the code from this project is included in the main package, so prevent creating a separate package from this project -->
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <!-- dotnet restore requires unique package names for all projects -->
+        <PackageId>Caravela.Open.DependencyEmbedder.Redist</PackageId>
+        <!-- the code from this project is included in the main package, so prevent creating a separate package from this project -->
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Caravela.Framework" Version="0.1.0-preview" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Caravela.Framework" Version="$(CaravelaVersion)"/>
+        <InternalsVisibleTo Include="Caravela.Open.DependencyEmbedder.Weaver"/>
+    </ItemGroup>
 
 </Project>

@@ -7,40 +7,34 @@ namespace Caravela.Open.DependencyEmbedder.Weaver
     /// <summary>
     /// Multiple streams rolled into one. Read-only. Comes from https://stackoverflow.com/a/3879231/1580088.
     /// </summary>
-    class ConcatenatedStream : Stream
+    internal class ConcatenatedStream : Stream
     {
-        readonly Queue<Stream> streams;
-        private readonly Stream[] allStreams;
+        private readonly Queue<Stream> _streams;
+        private readonly Stream[] _allStreams;
 
         public ConcatenatedStream(Stream[] streams)
         {
-            this.allStreams = streams;
-            this.streams = new Queue<Stream>(streams);
+            _allStreams = streams;
+            _streams = new Queue<Stream>(streams);
         }
 
-        public override bool CanRead
-        {
-            get { return true; }
-        }
+        public override bool CanRead => true;
 
         public void ResetAllToZero()
         {
-            foreach (Stream stream in allStreams)
-            {
-                stream.Position = 0;
-            }
+            foreach (var stream in _allStreams) stream.Position = 0;
         }
-        
+
         public override int Read(byte[] buffer, int offset, int count)
         {
-            int totalBytesRead = 0;
+            var totalBytesRead = 0;
 
-            while (count > 0 && streams.Count > 0)
+            while (count > 0 && _streams.Count > 0)
             {
-                int bytesRead = streams.Peek().Read(buffer, offset, count);
+                var bytesRead = _streams.Peek().Read(buffer, offset, count);
                 if (bytesRead == 0)
                 {
-                    streams.Dequeue();
+                    _streams.Dequeue();
                     continue;
                 }
 
@@ -52,36 +46,21 @@ namespace Caravela.Open.DependencyEmbedder.Weaver
             return totalBytesRead;
         }
 
-        public override bool CanSeek
-        {
-            get { return false; }
-        }
+        public override bool CanSeek => false;
 
-        public override bool CanWrite
-        {
-            get { return false; }
-        }
+        public override bool CanWrite => false;
 
         public override void Flush()
         {
             throw new NotImplementedException();
         }
 
-        public override long Length
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public override long Length => throw new NotImplementedException();
 
         public override long Position
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
         }
 
         public override long Seek(long offset, SeekOrigin origin)

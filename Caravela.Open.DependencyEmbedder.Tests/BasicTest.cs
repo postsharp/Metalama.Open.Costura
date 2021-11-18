@@ -13,8 +13,8 @@ namespace Caravela.Open.DependencyEmbedder.Tests
         public void TestTestAssemblyWithReferences()
         {
             DeleteAllButExes(folder);
-            string filename = "Caravela.Open.DependencyEmbedder.TestApp.exe";
-            Process p = Process.Start(Path.Combine(folder, filename));
+            var filename = "Caravela.Open.DependencyEmbedder.TestApp.exe";
+            var p = Process.Start(Path.Combine(folder, filename));
             Assert.True(p.WaitForExit(5000));
             Assert.Equal(0, p.ExitCode);
         }
@@ -23,16 +23,15 @@ namespace Caravela.Open.DependencyEmbedder.Tests
         public void TestWPF()
         {
             DeleteAllButExes(folder);
-            string filename = "Caravela.Open.DependencyEmbedder.WpfApp.exe";
-            Process p = Process.Start(Path.Combine(folder, filename));
+            var filename = "Caravela.Open.DependencyEmbedder.WpfApp.exe";
+            var p = Process.Start(Path.Combine(folder, filename));
             Assert.True(p.WaitForExit(35000));
             Assert.Equal(0, p.ExitCode);
         }
 
         private void DeleteAllButExes(string folder)
         {
-            foreach (string filename in Directory.EnumerateFiles(folder).ToList())
-            {
+            foreach (var filename in Directory.EnumerateFiles(folder).ToList())
                 if (filename.EndsWith(".exe"))
                 {
                     // keep
@@ -41,7 +40,6 @@ namespace Caravela.Open.DependencyEmbedder.Tests
                 {
                     File.Delete(filename);
                 }
-            }
         }
     }
 }

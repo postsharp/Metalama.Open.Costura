@@ -1,5 +1,15 @@
 <Project>
- <PropertyGroup>
-   <OutputPath>$(MSBuildThisFileDirectory)artifacts\bin\$(Configuration)</OutputPath>
- </PropertyGroup>
+    <PropertyGroup>
+        <OutputPath>$(MSBuildThisFileDirectory)artifacts\bin\$(Configuration)</OutputPath>
+        <LangVersion>9.0</LangVersion>
+        <Version>0.4.3-preview</Version>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <Import Project="..\Caravela\artifacts\private\CaravelaVersion.props" Condition="Exists('Caravela.local')"/>
+
+    <PropertyGroup Condition="'$(CaravelaVersion)'==''">
+        <CaravelaVersion>0.4.3-preview</CaravelaVersion>
+    </PropertyGroup>
+
 </Project>

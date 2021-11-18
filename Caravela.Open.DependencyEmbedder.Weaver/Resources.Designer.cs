@@ -79,8 +79,7 @@ namespace Caravela.Open.DependencyEmbedder.Weaver {
         ///{
         ///    internal static class Common
         ///    {
-        ///        [DllImport(&quot;kernel32&quot;, SetLastError = true, CharSet = CharSet.Unicode)]
-        ///     [rest of string was truncated]&quot;;.
+        ///        [DllImport(&quot;kernel32&quot;, SetLastError = true, CharSet = CharS [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Common {
             get {
@@ -117,7 +116,7 @@ namespace Caravela.Open.DependencyEmbedder.Weaver {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ﻿using System;
+        ///   Looks up a localized string similar to using System;
         ///using System.Collections.Generic;
         ///using System.Reflection;
         ///using System.Threading;
@@ -130,7 +129,7 @@ namespace Caravela.Open.DependencyEmbedder.Weaver {
         ///        static Dictionary&lt;string, bool&gt; nullCache = new Dictionary&lt;string, bool&gt;();
         ///
         ///        static Dictionary&lt;string, string&gt; assemblyNames = new Dictionary&lt;string, string&gt;();
-        ///        static Dictionary&lt;string, string&gt; symbolNames = new Dictionary&lt;string, string&gt; [rest of string was truncated]&quot;;.
+        ///        static Dictionary&lt;string, string&gt; symbolNames = new Dictionar [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Template {
             get {
@@ -139,7 +138,7 @@ namespace Caravela.Open.DependencyEmbedder.Weaver {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ﻿using System;
+        ///   Looks up a localized string similar to using System;
         ///using System.Collections.Generic;
         ///using System.IO;
         ///using System.Reflection;
@@ -155,7 +154,7 @@ namespace Caravela.Open.DependencyEmbedder.Weaver {
         ///        static string tempBasePath;
         ///
         ///        static List&lt;string&gt; preloadList = new List&lt;string&gt;();
-        ///        static List&lt;string&gt; preload32List = [rest of string was truncated]&quot;;.
+        ///        static List&lt;string [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TemplateWithTempAssembly {
             get {
@@ -179,8 +178,7 @@ namespace Caravela.Open.DependencyEmbedder.Weaver {
         ///
         ///        static string tempBasePath;
         ///
-        ///        static Dictionary&lt;string, string&gt; assemblyNames = new Dictionary&lt;string, string&gt;();
-        ///        st [rest of string was truncated]&quot;;.
+        ///        static Dictionary&lt;string, string&gt; assemblyNames = new Dictionary&lt;string, stri [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TemplateWithUnmanagedHandler {
             get {

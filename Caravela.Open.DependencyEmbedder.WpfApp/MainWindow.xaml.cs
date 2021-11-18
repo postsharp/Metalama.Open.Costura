@@ -10,7 +10,7 @@ namespace Caravela.Open.DependencyEmbedder.WpfApp
         public MainWindow()
         {
             InitializeComponent();
-            this.Loaded += (sender, args) => { this.Close(); };
+            Loaded += (sender, args) => { Close(); };
         }
     }
 }

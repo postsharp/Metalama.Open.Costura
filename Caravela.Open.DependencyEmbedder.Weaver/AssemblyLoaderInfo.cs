@@ -1,29 +1,29 @@
-using Microsoft.CodeAnalysis;
+using System.Linq;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Linq;
 
 namespace Caravela.Open.DependencyEmbedder.Weaver
 {
     public class AssemblyLoaderInfo
     {
-        public string AssemblyNamesField { get; private set; }
-        public string SymbolNamesField { get; private set; }
-        public string PreloadListField { get; private set; }
-        public string Preload32ListField { get; private set; }
-        public string Preload64ListField { get; private set; }
-        public string ChecksumsField { get; private set; }
-        public string Md5HashField { get; private set; }
+        public string? AssemblyNamesField { get; private set; }
+        public string? SymbolNamesField { get; private set; }
+        public string? PreloadListField { get; private set; }
+        public string? Preload32ListField { get; private set; }
+        public string? Preload64ListField { get; private set; }
+        public string? ChecksumsField { get; private set; }
+        public string? Md5HashField { get; private set; }
 
-        public CompilationUnitSyntax SourceType { get; set; }
-        public string SourceTypeName { get; private set; }
+        public CompilationUnitSyntax? SourceType { get; set; }
+        public string? SourceTypeName { get; private set; }
 
         public static AssemblyLoaderInfo LoadAssemblyLoader(
-            bool createTemporaryAssemblies, bool hasUnmanaged, ref CSharpCompilation compilation, CSharpParseOptions parseOptions)
+            bool createTemporaryAssemblies, bool hasUnmanaged, ref CSharpCompilation compilation,
+            CSharpParseOptions parseOptions)
         {
             compilation = compilation.AddSyntaxTrees(SyntaxFactory.ParseSyntaxTree(Resources.Common, parseOptions));
 
-            AssemblyLoaderInfo info = new AssemblyLoaderInfo();
+            var info = new AssemblyLoaderInfo();
             string sourceTypeCode;
             if (createTemporaryAssemblies)
             {
@@ -41,7 +41,7 @@ namespace Caravela.Open.DependencyEmbedder.Weaver
                 info.SourceTypeName = "Template";
             }
 
-            info.SourceType = SyntaxFactory.ParseCompilationUnit(sourceTypeCode/*, options: parseOptions*/);
+            info.SourceType = SyntaxFactory.ParseCompilationUnit(sourceTypeCode /*, options: parseOptions*/);
 
             info.AssemblyNamesField = "assemblyNames";
             info.SymbolNamesField = "symbolNames";
@@ -52,11 +52,12 @@ namespace Caravela.Open.DependencyEmbedder.Weaver
             info.Md5HashField = Optional("md5Hash");
             return info;
 
-            string Optional(string field) =>
+            string? Optional(string field) =>
                 info.SourceType.DescendantNodes().OfType<FieldDeclarationSyntax>()
                     .SelectMany(f => f.Declaration.Variables)
                     .Any(f => f.Identifier.ValueText == field)
-                    ? field : null;
+                    ? field
+                    : null;
         }
     }
 }
