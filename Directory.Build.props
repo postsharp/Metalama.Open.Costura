@@ -1,15 +1,16 @@
 <Project>
+
     <PropertyGroup>
-        <OutputPath>$(MSBuildThisFileDirectory)artifacts\bin\$(Configuration)</OutputPath>
-        <LangVersion>9.0</LangVersion>
-        <Version>0.4.3-preview</Version>
-        <Nullable>enable</Nullable>
+        <RepoDirectory>$(MSBuildThisFileDirectory)</RepoDirectory>
+        <RepoKind>GitHub</RepoKind> <!-- Valid values: AzureRepos | GitHub -->
     </PropertyGroup>
 
-    <Import Project="..\Metalama\artifacts\private\MetalamaVersion.props" Condition="Exists('Metalama.local')"/>
+    <Import Project="eng\Versions.props" />
+    <Import Project="eng\Packaging.props" />
+    <Import Sdk="PostSharp.Engineering.Sdk" Project="BuildOptions.props" />
+    <Import Sdk="PostSharp.Engineering.Sdk" Project="CodeQuality.props" />
+    <Import Sdk="PostSharp.Engineering.Sdk" Project="StrongName.props" /> 
+    <Import Sdk="PostSharp.Engineering.Sdk" Project="SourceLink.props" />
 
-    <PropertyGroup Condition="'$(MetalamaVersion)'==''">
-        <MetalamaVersion>0.4.3-preview</MetalamaVersion>
-    </PropertyGroup>
 
 </Project>
