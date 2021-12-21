@@ -15,13 +15,9 @@
         <!-- TODO: Set to a public version before merging to master. -->
 		<MetalamaVersion>branch:master</MetalamaVersion>
 
-        <!-- Example of dependencies to third parties -->
         <NewtonsoftJsonVersion>13.0.1</NewtonsoftJsonVersion>
-        <SystemCollectionsImmutableVersion>5.0.0</SystemCollectionsImmutableVersion>
-        <MicrosoftNETTestSdkVersion>17.0.0</MicrosoftNETTestSdkVersion>
+        <SoothsilverRandomVersion>1.1.0</SoothsilverRandomVersion>
         <xUnitVersion>2.4.1</xUnitVersion>
-        <xUnitAbstractionsVersion>2.0.3</xUnitAbstractionsVersion>
-        <CoverletVersion>3.1.0</CoverletVersion>
     </PropertyGroup>
 
     <!-- Override versions (both this product and dependencies) for the local build -->

@@ -11,7 +11,7 @@ var product = new Product
 {
     ProductName = "Metalama.Open.DependencyEmbedder",
     Solutions = ImmutableArray.Create<Solution>( new DotNetSolution( "Metalama.Open.DependencyEmbedder.sln" ) ),
-    PublicArtifacts = Pattern.Create( "Metalama.Open.DependencyEmbedder.sln.nupkg" ),
+    PublicArtifacts = Pattern.Create( "Metalama.Open.DependencyEmbedder.$(PackageVersion).nupkg" ),
     Dependencies = ImmutableArray.Create( Dependencies.PostSharpEngineering, Dependencies.Metalama )
 };
 
