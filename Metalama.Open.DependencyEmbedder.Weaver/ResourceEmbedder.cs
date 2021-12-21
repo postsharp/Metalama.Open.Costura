@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using Metalama.Compiler;
-using Metalama.Framework.Impl.Sdk;
+using Metalama.Framework.Engine.Sdk;
 
 namespace Metalama.Open.DependencyEmbedder.Weaver
 {

@@ -13,7 +13,7 @@ namespace Metalama.Open.DependencyEmbedder
             var options = projectAmender.Project.Extension<DependencyEmbedderOptions>();
             if (configure != null) configure(options);
 
-            projectAmender.WithMembers(c => new[] { c }).AddAspect(_ => new DependencyEmbedderAspect());
+            projectAmender.WithTargetMembers(c => new[] { c }).AddAspect(_ => new DependencyEmbedderAspect());
         }
     }
 }

@@ -10,8 +10,8 @@
          <Exclude>$(Exclude),[Caravela.TestFramework]Caravela.TestFramework.XunitFramework.*</Exclude>
          
          
-         <Exclude>$(Exclude),[Caravela.Framework.Impl]Caravela.Framework.Impl.CodeModel.Builders.*</Exclude>
-         <Exclude>$(Exclude),[Caravela.TestFramework.Impl]Caravela.Framework.Impl.Templating.MetaModel.Advised*</Exclude>
+         <Exclude>$(Exclude),[Caravela.Framework.Engine]Caravela.Framework.Engine.CodeModel.Builders.*</Exclude>
+         <Exclude>$(Exclude),[Caravela.TestFramework.Engine]Caravela.Framework.Engine.Templating.MetaModel.Advised*</Exclude>
 
          -->
 
