@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Caravela.Open.DependencyEmbedder.WpfApp
+namespace Metalama.Open.DependencyEmbedder.WpfApp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

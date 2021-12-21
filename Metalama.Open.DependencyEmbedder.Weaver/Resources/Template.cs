@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 
-namespace Caravela.Open.DependencyEmbedder.Weaver.Templates
+namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
 {
     internal static class Template
     {

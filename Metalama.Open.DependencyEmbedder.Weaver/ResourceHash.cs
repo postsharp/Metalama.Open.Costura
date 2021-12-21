@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Caravela.Open.DependencyEmbedder.Weaver
+namespace Metalama.Open.DependencyEmbedder.Weaver
 {
     public static class ResourceHash
     {

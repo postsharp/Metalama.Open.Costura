@@ -2,7 +2,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Caravela.Open.DependencyEmbedder.Weaver
+namespace Metalama.Open.DependencyEmbedder.Weaver
 {
     public class AssemblyLoaderInfo
     {

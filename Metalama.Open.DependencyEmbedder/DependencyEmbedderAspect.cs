@@ -1,6 +1,6 @@
-﻿using Caravela.Framework.Aspects;
+﻿using Metalama.Framework.Aspects;
 
-namespace Caravela.Open.DependencyEmbedder
+namespace Metalama.Open.DependencyEmbedder
 {
     /// <summary>
     /// Add <c>[assembly: DependencyEmbedderAspect]</c> anywhere in your source code to ensure that all references are packed into

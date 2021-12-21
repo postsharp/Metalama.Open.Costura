@@ -1,8 +1,8 @@
 ﻿using System;
-using Caravela.Framework.Aspects;
-using Caravela.Framework.Fabrics;
+using Metalama.Framework.Aspects;
+using Metalama.Framework.Fabrics;
 
-namespace Caravela.Open.DependencyEmbedder
+namespace Metalama.Open.DependencyEmbedder
 {
     [CompileTimeOnly]
     public static class DependencyEmbedderProjectExtensions

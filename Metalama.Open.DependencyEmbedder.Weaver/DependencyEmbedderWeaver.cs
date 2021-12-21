@@ -1,12 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Caravela.Framework.Impl.CodeModel;
-using Caravela.Framework.Impl.Sdk;
+using Metalama.Framework.Impl.CodeModel;
+using Metalama.Framework.Impl.Sdk;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace Caravela.Open.DependencyEmbedder.Weaver
+namespace Metalama.Open.DependencyEmbedder.Weaver
 {
     [CompilerPlugin]
     [AspectWeaver(typeof(DependencyEmbedderAspect))]
@@ -22,8 +22,8 @@ namespace Caravela.Open.DependencyEmbedder.Weaver
                 context.ReportDiagnostic(Diagnostic.Create(
                     new DiagnosticDescriptor(
                         "DE001", "Language version too low",
-                        "Caravela.Open.DependencyEmbedder requires language version at least 9.0, but it's set to {0}.",
-                        "Caravela.Open.DependencyEmbedder", DiagnosticSeverity.Error, true),
+                        "Metalama.Open.DependencyEmbedder requires language version at least 9.0, but it's set to {0}.",
+                        "Metalama.Open.DependencyEmbedder", DiagnosticSeverity.Error, true),
                     null, new object[] { compilation.LanguageVersion.ToDisplayString() }));
                 return;
             }

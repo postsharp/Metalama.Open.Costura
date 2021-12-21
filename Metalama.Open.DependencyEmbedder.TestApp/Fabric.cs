@@ -1,5 +1,5 @@
-﻿using Caravela.Framework.Fabrics;
-using Caravela.Open.DependencyEmbedder;
+﻿using Metalama.Framework.Fabrics;
+using Metalama.Open.DependencyEmbedder;
 
 internal class Fabric : ProjectFabric
 {

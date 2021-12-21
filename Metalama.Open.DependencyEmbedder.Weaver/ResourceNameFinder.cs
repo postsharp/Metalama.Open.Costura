@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Caravela.Open.DependencyEmbedder.Weaver
+namespace Metalama.Open.DependencyEmbedder.Weaver
 {
     public class ResourceNameFinder
     {

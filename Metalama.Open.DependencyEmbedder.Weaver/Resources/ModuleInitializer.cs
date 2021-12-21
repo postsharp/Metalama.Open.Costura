@@ -7,7 +7,7 @@ namespace System.Runtime.CompilerServices
     public sealed class ModuleInitializerAttribute : Attribute { }
 }
 
-namespace Caravela.Open.DependencyEmbedder.Weaver.Templates
+namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
 {
     static class ModuleInitializer
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using Caravela.Compiler;
-using Caravela.Framework.Impl.Sdk;
+using Metalama.Compiler;
+using Metalama.Framework.Impl.Sdk;
 
-namespace Caravela.Open.DependencyEmbedder.Weaver
+namespace Metalama.Open.DependencyEmbedder.Weaver
 {
     public class ResourceEmbedder
     {

@@ -1,6 +1,6 @@
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace Caravela.Open.DependencyEmbedder.Weaver
+namespace Metalama.Open.DependencyEmbedder.Weaver
 {
     public class AttachCallSynthesis
     {

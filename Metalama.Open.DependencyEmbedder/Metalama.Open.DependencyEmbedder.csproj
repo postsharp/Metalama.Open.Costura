@@ -3,14 +3,14 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <!-- dotnet restore requires unique package names for all projects -->
-        <PackageId>Caravela.Open.DependencyEmbedder.Redist</PackageId>
+        <PackageId>Metalama.Open.DependencyEmbedder.Redist</PackageId>
         <!-- the code from this project is included in the main package, so prevent creating a separate package from this project -->
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Caravela.Framework" Version="$(CaravelaVersion)"/>
-        <InternalsVisibleTo Include="Caravela.Open.DependencyEmbedder.Weaver"/>
+        <PackageReference Include="Metalama.Framework" Version="$(MetalamaVersion)"/>
+        <InternalsVisibleTo Include="Metalama.Open.DependencyEmbedder.Weaver"/>
     </ItemGroup>
 
 </Project>

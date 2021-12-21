@@ -1,6 +1,6 @@
-using Caravela.Framework.Aspects;
+using Metalama.Framework.Aspects;
 
-namespace Caravela.Open.DependencyEmbedder
+namespace Metalama.Open.DependencyEmbedder
 {
     [CompileTimeOnly]
     public enum UnmanagedAssemblyPlatform

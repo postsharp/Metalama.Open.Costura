@@ -1,4 +1,4 @@
-## Caravela.Open.DependencyEmbedder
+## Metalama.Open.DependencyEmbedder
 
 Embeds dependencies as resources so that you can have a standalone executable.
 
@@ -6,10 +6,10 @@ This source transformer only works under .NET Framework. In .NET Core, we recomm
 and using [the single file executable feature](https://docs.microsoft.com/en-us/dotnet/core/deploying/single-file)
 instead.
 
-*This is a [Caravela](https://github.com/postsharp/Caravela) aspect. It modifies your code during compilation by using
+*This is a [Metalama](https://github.com/postsharp/Metalama) aspect. It modifies your code during compilation by using
 source weaving.*
 
-[![CI badge](https://github.com/postsharp/Caravela.Open.DependencyEmbedder/workflows/Full%20Pipeline/badge.svg)](https://github.com/postsharp/Caravela.Open.DependencyEmbedder/actions?query=workflow%3A%22Full+Pipeline%22)
+[![CI badge](https://github.com/postsharp/Metalama.Open.DependencyEmbedder/workflows/Full%20Pipeline/badge.svg)](https://github.com/postsharp/Metalama.Open.DependencyEmbedder/actions?query=workflow%3A%22Full+Pipeline%22)
 
 #### Example
 
@@ -19,12 +19,12 @@ If you use this aspect, instead those two DLLs will be embedded into `MyProject.
 
 #### Installation
 
-1. Install the NuGet package: `dotnet add package Caravela.Open.DependencyEmbedder`.
+1. Install the NuGet package: `dotnet add package Metalama.Open.DependencyEmbedder`.
 2. Add the following code somewhere in your code:
 
     ```cs
-    using Caravela.Framework.Fabrics;
-    using Caravela.Open.DependencyEmbedder;
+    using Metalama.Framework.Fabrics;
+    using Metalama.Open.DependencyEmbedder;
     
     internal class Fabric : ProjectFabric
     {

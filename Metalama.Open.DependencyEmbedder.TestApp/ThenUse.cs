@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Soothsilver.Random;
 using Xunit;
 
-namespace Caravela.Open.DependencyEmbedder.TestApp
+namespace Metalama.Open.DependencyEmbedder.TestApp
 {
     internal class ThenUse
     {

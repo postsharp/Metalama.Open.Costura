@@ -6,10 +6,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <Import Project="..\Caravela\artifacts\private\CaravelaVersion.props" Condition="Exists('Caravela.local')"/>
+    <Import Project="..\Metalama\artifacts\private\MetalamaVersion.props" Condition="Exists('Metalama.local')"/>
 
-    <PropertyGroup Condition="'$(CaravelaVersion)'==''">
-        <CaravelaVersion>0.4.3-preview</CaravelaVersion>
+    <PropertyGroup Condition="'$(MetalamaVersion)'==''">
+        <MetalamaVersion>0.4.3-preview</MetalamaVersion>
     </PropertyGroup>
 
 </Project>

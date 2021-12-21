@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Caravela.Open.DependencyEmbedder.Weaver {
+namespace Metalama.Open.DependencyEmbedder.Weaver {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Caravela.Open.DependencyEmbedder.Weaver {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Caravela.Open.DependencyEmbedder.Weaver.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Metalama.Open.DependencyEmbedder.Weaver.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -75,7 +75,7 @@ namespace Caravela.Open.DependencyEmbedder.Weaver {
         ///
         ///// ReSharper disable CommentTypo
         ///
-        ///namespace Caravela.Open.DependencyEmbedder.Weaver.Templates
+        ///namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
         ///{
         ///    internal static class Common
         ///    {
@@ -97,7 +97,7 @@ namespace Caravela.Open.DependencyEmbedder.Weaver {
         ///    public sealed class ModuleInitializerAttribute : Attribute { }
         ///}
         ///
-        ///namespace Caravela.Open.DependencyEmbedder.Weaver.Templates
+        ///namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
         ///{
         ///    static class ModuleInitializer
         ///    {
@@ -121,7 +121,7 @@ namespace Caravela.Open.DependencyEmbedder.Weaver {
         ///using System.Reflection;
         ///using System.Threading;
         ///
-        ///namespace Caravela.Open.DependencyEmbedder.Weaver.Templates
+        ///namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
         ///{
         ///    internal static class Template
         ///    {
@@ -144,7 +144,7 @@ namespace Caravela.Open.DependencyEmbedder.Weaver {
         ///using System.Reflection;
         ///using System.Threading;
         ///
-        ///namespace Caravela.Open.DependencyEmbedder.Weaver.Templates
+        ///namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
         ///{
         ///    internal static class TemplateWithTempAssembly
         ///    {
@@ -169,7 +169,7 @@ namespace Caravela.Open.DependencyEmbedder.Weaver {
         ///using System.Reflection;
         ///using System.Threading;
         ///
-        ///namespace Caravela.Open.DependencyEmbedder.Weaver.Templates
+        ///namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
         ///{
         ///    internal static class TemplateWithUnmanagedHandler
         ///    {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Immutable;
-using Caravela.Framework.Project;
+using Metalama.Framework.Project;
 
-namespace Caravela.Open.DependencyEmbedder
+namespace Metalama.Open.DependencyEmbedder
 {
     public class DependencyEmbedderOptions : ProjectExtension
     {
