@@ -2,18 +2,17 @@
 
     <!-- Set the default version of the current product -->
     <Import Project="MainVersion.props" />
-    
+
     <PropertyGroup>
         <MetalamaOpenDependencyEmbedderVersion>$(MainVersion)$(PackageVersionSuffix)</MetalamaOpenDependencyEmbedderVersion>
         <MetalamaOpenDependencyEmbedderAssemblyVersion>$(MainVersion)</MetalamaOpenDependencyEmbedderAssemblyVersion>
     </PropertyGroup>
 
-    
     <!-- Set the default versions of dependencies -->
     <PropertyGroup>
-        <PostSharpEngineeringVersion>1.0.22-preview</PostSharpEngineeringVersion>
-        <!-- TODO: Set to a public version before merging to master. -->
-		<MetalamaVersion>branch:master</MetalamaVersion>
+        <PostSharpEngineeringVersion>1.0.65-preview</PostSharpEngineeringVersion>
+		<MetalamaVersion>0.5.13-preview</MetalamaVersion>
+		<MetalamaVersion Condition="$(VcsBranch.StartsWith('dev'))">branch:master</MetalamaVersion>
 
         <NewtonsoftJsonVersion>13.0.1</NewtonsoftJsonVersion>
         <SoothsilverRandomVersion>1.1.0</SoothsilverRandomVersion>
