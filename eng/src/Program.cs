@@ -7,17 +7,7 @@ using PostSharp.Engineering.BuildTools.Build.Solutions;
 using PostSharp.Engineering.BuildTools.Dependencies.Model;
 using Spectre.Console.Cli;
 
-var productDependencyDefinition = new DependencyDefinition( "Metalama.Open.DependencyEmbedder", VcsProvider.GitHub, "Metalama" )
-{
-    CiBuildTypes = new ConfigurationSpecific<string>(
-        "Metalama_MetalamaOpen_MetalamaOpenDependencyEmbedder_DebugBuild",
-        "Metalama_MetalamaOpen_MetalamaOpenDependencyEmbedder_ReleaseBuild",
-        "Metalama_MetalamaOpen_MetalamaOpenDependencyEmbedder_PublicBuild" ),
-    DeploymentBuildType = "Metalama_MetalamaOpen_MetalamaOpenDependencyEmbedder_PublicDeployment",
-    BumpBuildType = "Metalama_MetalamaOpen_MetalamaOpenDependencyEmbedder_VersionBump"
-};
-
-var product = new Product( productDependencyDefinition )
+var product = new Product(Dependencies.MetalamaOpenDependencyEmbedder)
 {
     Solutions = new Solution[] { new DotNetSolution( "Metalama.Open.DependencyEmbedder.sln" ) },
     PublicArtifacts = Pattern.Create( "Metalama.Open.DependencyEmbedder.$(PackageVersion).nupkg" ),
