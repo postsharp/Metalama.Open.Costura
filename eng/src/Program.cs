@@ -18,6 +18,7 @@ var product = new Product(Dependencies.MetalamaOpenDependencyEmbedder)
     Configurations = Product.DefaultConfigurations
         .WithValue( BuildConfiguration.Public, new BuildConfigurationInfo(
             MSBuildName: "Release",
+            RequiresSigning: true,
             PublicPublishers: Product.DefaultPublicPublishers.Add( new MergePublisher() ).ToArray() ) )
 };
 
