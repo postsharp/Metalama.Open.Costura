@@ -1,42 +1,52 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) SharpCrafters s.r.o. All rights reserved.
+// This project is not open source. Please see the LICENSE.md file in the repository root for details.
+
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Metalama.Open.DependencyEmbedder.Weaver
+namespace Metalama.Open.DependencyEmbedder.Weaver;
+
+public class Checksums
 {
-    public class Checksums
+    private readonly Dictionary<string, string> _checksums = new();
+
+    public IReadOnlyDictionary<string, string> AllChecksums => this._checksums;
+
+    public static string CalculateChecksum( string filename )
     {
-        private readonly Dictionary<string, string> _checksums = new();
+        using var fs = new FileStream( filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite );
 
-        public IReadOnlyDictionary<string, string> AllChecksums => _checksums;
+        return CalculateChecksum( fs );
+    }
 
-        public static string CalculateChecksum(string filename)
+    private static string CalculateChecksum( Stream stream )
+    {
+        using var bs = new BufferedStream( stream );
+#pragma warning disable CA5350
+        using var sha1 = new SHA1CryptoServiceProvider();
+#pragma warning restore CA5350
+
+        var hash = sha1.ComputeHash( bs );
+        var formatted = new StringBuilder( 2 * hash.Length );
+
+        foreach ( var b in hash )
         {
-            using var fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            return CalculateChecksum(fs);
+            formatted.AppendFormat( CultureInfo.InvariantCulture, "{0:X2}", b );
         }
 
-        private static string CalculateChecksum(Stream stream)
-        {
-            using var bs = new BufferedStream(stream);
-            using var sha1 = new SHA1CryptoServiceProvider();
+        return formatted.ToString();
+    }
 
-            var hash = sha1.ComputeHash(bs);
-            var formatted = new StringBuilder(2 * hash.Length);
-            foreach (var b in hash) formatted.AppendFormat("{0:X2}", b);
+    public void Add( string resourceName, string checksum )
+    {
+        this._checksums.Add( resourceName, checksum );
+    }
 
-            return formatted.ToString();
-        }
-
-        public void Add(string resourceName, string checksum)
-        {
-            _checksums.Add(resourceName, checksum);
-        }
-
-        public bool ContainsKey(string resourceName)
-        {
-            return _checksums.ContainsKey(resourceName);
-        }
+    public bool ContainsKey( string resourceName )
+    {
+        return this._checksums.ContainsKey( resourceName );
     }
 }

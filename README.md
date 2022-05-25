@@ -13,9 +13,11 @@ source weaving.*
 
 #### Example
 
-Assume that `MyProject` has dependencies on the `Newtonsoft.Json` and `Soothsilver.Random` packages. Normally, `MyProject.exe` would require the files `Newtonsoft.Json.dll` and `Soothsilver.Random.dll` to work.
+Assume that `MyProject` has dependencies on the `Newtonsoft.Json` and `Soothsilver.Random` packages.
+Normally, `MyProject.exe` would require the files `Newtonsoft.Json.dll` and `Soothsilver.Random.dll` to work.
 
-If you use this aspect, instead those two DLLs will be embedded into `MyProject.exe` as resources and loaded from there. The only file you need is `MyProject.exe`.
+If you use this aspect, instead those two DLLs will be embedded into `MyProject.exe` as resources and loaded from there.
+The only file you need is `MyProject.exe`.
 
 #### Installation
 
@@ -37,4 +39,5 @@ If you use this aspect, instead those two DLLs will be embedded into `MyProject.
 
 You can then distribute just the main output assembly file. It will be enough.
 
-There are documented configuration options in the `DependencyEmbedder` attribute. Set them in your source code to change them from their defaults.
+There are documented configuration options in the `DependencyEmbedder` attribute. Set them in your source code to change
+them from their defaults.

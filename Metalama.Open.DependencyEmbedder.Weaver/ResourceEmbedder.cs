@@ -1,249 +1,328 @@
-﻿using System;
+﻿// Copyright (c) SharpCrafters s.r.o. All rights reserved.
+// This project is not open source. Please see the LICENSE.md file in the repository root for details.
+
+using Metalama.Compiler;
+using Metalama.Framework.Engine.AspectWeavers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using Metalama.Compiler;
-using Metalama.Framework.Engine.Sdk;
 
-namespace Metalama.Open.DependencyEmbedder.Weaver
+namespace Metalama.Open.DependencyEmbedder.Weaver;
+
+public class ResourceEmbedder
 {
-    public class ResourceEmbedder
+    private readonly AspectWeaverContext _context;
+    private string? _cachePath;
+
+    public ResourceEmbedder( AspectWeaverContext context )
     {
-        private readonly AspectWeaverContext _context;
-        private string? _cachePath;
+        this._context = context;
+    }
 
-        public bool HasUnmanaged { get; private set; }
+    public bool HasUnmanaged { get; private set; }
 
-        public List<(string Name, Stream Stream)> Resources { get; } = new();
+    public List<(string Name, Stream Stream)> Resources { get; } = new();
 
-        public ResourceEmbedder(AspectWeaverContext context)
+    public void EmbedResources(
+        DependencyEmbedderOptions options,
+        string[] referenceCopyLocalPaths,
+        Checksums checksums )
+    {
+        var tempDirectory = Path.Combine( Path.GetTempPath(), Path.GetRandomFileName() );
+
+        this._cachePath = tempDirectory;
+
+        Directory.CreateDirectory( this._cachePath );
+
+        var onlyBinaries = referenceCopyLocalPaths;
+
+        var disableCompression = !options.CompressResources;
+        var createTemporaryAssemblies = options.CreateTemporaryAssemblies;
+
+        foreach ( var dependency in GetFilteredReferences( onlyBinaries, options ) )
         {
-            _context = context;
-        }
+            var fullPath = Path.GetFullPath( dependency );
 
-        public void EmbedResources(DependencyEmbedderOptions options, string[] referenceCopyLocalPaths,
-            Checksums checksums)
-        {
-            var tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-
-            _cachePath = tempDirectory; //  Path.Combine(Path.GetDirectoryName(AssemblyFilePath), "DependencyEmbedder");
-            Directory.CreateDirectory(_cachePath);
-
-            var onlyBinaries = referenceCopyLocalPaths;
-
-            var disableCompression = !options.CompressResources;
-            var createTemporaryAssemblies = options.CreateTemporaryAssemblies;
-
-            foreach (var dependency in GetFilteredReferences(onlyBinaries, options))
+            if ( options.IncludeSatelliteAssemblies )
             {
-                var fullPath = Path.GetFullPath(dependency);
+                if ( dependency.EndsWith( ".resources.dll", StringComparison.OrdinalIgnoreCase ) )
+                {
+                    this.Embed(
+                        $"DependencyEmbedder.{Path.GetFileName( Path.GetDirectoryName( fullPath ) )}.",
+                        fullPath,
+                        !disableCompression,
+                        createTemporaryAssemblies,
+                        options.IsCleanupDisabled,
+                        checksums );
 
-                if (options.IncludeSatelliteAssemblies)
-                    if (dependency.EndsWith(".resources.dll", StringComparison.OrdinalIgnoreCase))
-                    {
-                        Embed($"DependencyEmbedder.{Path.GetFileName(Path.GetDirectoryName(fullPath))}.", fullPath,
-                            !disableCompression, createTemporaryAssemblies, options.IsCleanupDisabled, checksums);
-                        continue;
-                    }
-
-                Embed("DependencyEmbedder.", fullPath, !disableCompression, createTemporaryAssemblies,
-                    options.IsCleanupDisabled, checksums);
-
-                if (!options.IncludeDebugSymbols) continue;
-                var pdbFullPath = Path.ChangeExtension(fullPath, "pdb");
-                if (File.Exists(pdbFullPath))
-                    Embed("DependencyEmbedder.", pdbFullPath, !disableCompression, createTemporaryAssemblies,
-                        options.IsCleanupDisabled, checksums);
+                    continue;
+                }
             }
 
-            foreach (var dependency in onlyBinaries)
+            this.Embed(
+                "DependencyEmbedder.",
+                fullPath,
+                !disableCompression,
+                createTemporaryAssemblies,
+                options.IsCleanupDisabled,
+                checksums );
+
+            if ( !options.IncludeDebugSymbols )
             {
-                var prefix = "";
+                continue;
+            }
 
-                var unmanagedAssembly = options.UnmanagedAssemblies.LastOrDefault(x =>
-                    string.Equals(x.Name, Path.GetFileNameWithoutExtension(dependency),
-                        StringComparison.OrdinalIgnoreCase));
-                if (unmanagedAssembly != null)
-                {
-                    if (unmanagedAssembly.Platform == UnmanagedAssemblyPlatform.x86)
-                    {
-                        prefix = "DependencyEmbedder32.";
-                        HasUnmanaged = true;
-                    }
-                    else if (unmanagedAssembly.Platform == UnmanagedAssemblyPlatform.x64)
-                    {
-                        prefix = "DependencyEmbedder64.";
-                        HasUnmanaged = true;
-                    }
-                }
+            var pdbFullPath = Path.ChangeExtension( fullPath, "pdb" );
 
-                if (string.IsNullOrEmpty(prefix)) continue;
-
-                var fullPath = Path.GetFullPath(dependency);
-                Embed(prefix, fullPath, !disableCompression, true, options.IsCleanupDisabled, checksums);
-
-                if (!options.IncludeDebugSymbols) continue;
-                var pdbFullPath = Path.ChangeExtension(fullPath, "pdb");
-                if (File.Exists(pdbFullPath))
-                    Embed(prefix, pdbFullPath, !disableCompression, true, options.IsCleanupDisabled, checksums);
+            if ( File.Exists( pdbFullPath ) )
+            {
+                this.Embed(
+                    "DependencyEmbedder.",
+                    pdbFullPath,
+                    !disableCompression,
+                    createTemporaryAssemblies,
+                    options.IsCleanupDisabled,
+                    checksums );
             }
         }
 
-        private bool CompareAssemblyName(string matchText, string assemblyName)
+        foreach ( var dependency in onlyBinaries )
         {
-            if (matchText.EndsWith("*") && matchText.Length > 1)
-                return assemblyName.StartsWith(matchText.Substring(0, matchText.Length - 1),
-                    StringComparison.OrdinalIgnoreCase);
+            var prefix = "";
 
-            return matchText.Equals(assemblyName, StringComparison.OrdinalIgnoreCase);
-        }
+            var unmanagedAssembly = options.UnmanagedAssemblies.LastOrDefault(
+                x =>
+                    string.Equals(
+                        x.Name,
+                        Path.GetFileNameWithoutExtension( dependency ),
+                        StringComparison.OrdinalIgnoreCase ) );
 
-        private IEnumerable<string> GetFilteredReferences(IEnumerable<string> onlyBinaries,
-            DependencyEmbedderOptions options)
-        {
-            if (!options.IncludedAssemblies.IsDefault)
+            if ( unmanagedAssembly != null )
             {
-                var skippedAssemblies = new List<string>(options.IncludedAssemblies);
-
-                foreach (var file in onlyBinaries)
+                if ( unmanagedAssembly.Platform == UnmanagedAssemblyPlatform.X86 )
                 {
-                    var assemblyName = Path.GetFileNameWithoutExtension(file);
-
-                    if (options.IncludedAssemblies.Any(x => CompareAssemblyName(x, assemblyName)) &&
-                        options.UnmanagedAssemblies.All(x => !CompareAssemblyName(x.Name, assemblyName)))
-                    {
-                        skippedAssemblies.Remove(
-                            options.IncludedAssemblies.First(x => CompareAssemblyName(x, assemblyName)));
-                        yield return file;
-                    }
+                    prefix = "DependencyEmbedder32.";
+                    this.HasUnmanaged = true;
                 }
-
-                if (skippedAssemblies.Count > 0)
+                else if ( unmanagedAssembly.Platform == UnmanagedAssemblyPlatform.X64 )
                 {
-                    var splitReferences = Array.Empty<string>(); // References.Split(';');
-
-                    var hasErrors = false;
-
-                    foreach (var skippedAssembly in skippedAssemblies)
-                    {
-                        var fileName = (from splitReference in splitReferences
-                            where string.Equals(Path.GetFileNameWithoutExtension(splitReference), skippedAssembly,
-                                StringComparison.InvariantCulture)
-                            select splitReference).FirstOrDefault();
-                        if (string.IsNullOrEmpty(fileName))
-                        {
-                            hasErrors = true;
-                            // TODO  LogError($"Assembly '{skippedAssembly}' cannot be found (not even as CopyLocal='false'), please update the configuration");
-                            continue;
-                        }
-
-                        yield return fileName;
-                    }
-
-                    if (hasErrors) throw new Exception("One or more errors occurred, please check the log");
+                    prefix = "DependencyEmbedder64.";
+                    this.HasUnmanaged = true;
                 }
-
-                yield break;
             }
 
-            if (options.ExcludedAssemblies.Any())
+            if ( string.IsNullOrEmpty( prefix ) )
             {
-                foreach (var file in onlyBinaries.Except(options.UnmanagedAssemblies.Select(x => x.Name)))
-                {
-                    var assemblyName = Path.GetFileNameWithoutExtension(file);
+                continue;
+            }
 
-                    if (options.ExcludedAssemblies.Any(x => CompareAssemblyName(x, assemblyName)) ||
-                        options.UnmanagedAssemblies.Any(x => CompareAssemblyName(x.Name, assemblyName)))
-                        continue;
+            var fullPath = Path.GetFullPath( dependency );
+            this.Embed( prefix, fullPath, !disableCompression, true, options.IsCleanupDisabled, checksums );
+
+            if ( !options.IncludeDebugSymbols )
+            {
+                continue;
+            }
+
+            var pdbFullPath = Path.ChangeExtension( fullPath, "pdb" );
+
+            if ( File.Exists( pdbFullPath ) )
+            {
+                this.Embed( prefix, pdbFullPath, !disableCompression, true, options.IsCleanupDisabled, checksums );
+            }
+        }
+    }
+
+    private static bool CompareAssemblyName( string matchText, string assemblyName )
+    {
+        if ( matchText.EndsWith( "*", StringComparison.Ordinal ) && matchText.Length > 1 )
+        {
+            return assemblyName.StartsWith(
+                matchText.Substring( 0, matchText.Length - 1 ),
+                StringComparison.OrdinalIgnoreCase );
+        }
+
+        return matchText.Equals( assemblyName, StringComparison.OrdinalIgnoreCase );
+    }
+
+    private static IEnumerable<string> GetFilteredReferences(
+        IEnumerable<string> onlyBinaries,
+        DependencyEmbedderOptions options )
+    {
+        if ( !options.IncludedAssemblies.IsDefault )
+        {
+            var skippedAssemblies = new List<string>( options.IncludedAssemblies );
+
+            foreach ( var file in onlyBinaries )
+            {
+                var assemblyName = Path.GetFileNameWithoutExtension( file );
+
+                if ( options.IncludedAssemblies.Any( x => CompareAssemblyName( x, assemblyName ) ) &&
+                     options.UnmanagedAssemblies.All( x => !CompareAssemblyName( x.Name, assemblyName ) ) )
+                {
+                    skippedAssemblies.Remove( options.IncludedAssemblies.First( x => CompareAssemblyName( x, assemblyName ) ) );
+
                     yield return file;
                 }
-
-                yield break;
             }
 
-            if (options.IncludedAssemblies.IsDefault)
-                foreach (var file in onlyBinaries)
-                {
-                    var assemblyName = Path.GetFileNameWithoutExtension(file);
+            if ( skippedAssemblies.Count > 0 )
+            {
+                var splitReferences = Array.Empty<string>(); // References.Split(';');
 
-                    if (options.UnmanagedAssemblies.All(x => !CompareAssemblyName(x.Name, assemblyName)))
-                        yield return file;
+                var hasErrors = false;
+
+                foreach ( var skippedAssembly in skippedAssemblies )
+                {
+                    var fileName = (from splitReference in splitReferences
+                                    where string.Equals(
+                                        Path.GetFileNameWithoutExtension( splitReference ),
+                                        skippedAssembly,
+                                        StringComparison.Ordinal )
+                                    select splitReference).FirstOrDefault();
+
+                    if ( string.IsNullOrEmpty( fileName ) )
+                    {
+                        hasErrors = true;
+
+                        // TODO  LogError($"Assembly '{skippedAssembly}' cannot be found (not even as CopyLocal='false'), please update the configuration");
+                        continue;
+                    }
+
+                    yield return fileName;
                 }
+
+                if ( hasErrors )
+                {
+                    throw new InvalidOperationException( "One or more errors occurred, please check the log." );
+                }
+            }
+
+            yield break;
         }
 
-        private void Embed(string prefix, string fullPath, bool compress, bool addChecksum, bool disableCleanup,
-            Checksums checksums)
+        if ( options.ExcludedAssemblies.Any() )
         {
-            try
+            foreach ( var file in onlyBinaries.Except( options.UnmanagedAssemblies.Select( x => x.Name ) ) )
             {
-                InnerEmbed(prefix, fullPath, compress, addChecksum, disableCleanup, checksums);
+                var assemblyName = Path.GetFileNameWithoutExtension( file );
+
+                if ( options.ExcludedAssemblies.Any( x => CompareAssemblyName( x, assemblyName ) ) ||
+                     options.UnmanagedAssemblies.Any( x => CompareAssemblyName( x.Name, assemblyName ) ) )
+                {
+                    continue;
+                }
+
+                yield return file;
             }
-            catch (Exception exception)
+
+            yield break;
+        }
+
+        if ( options.IncludedAssemblies.IsDefault )
+        {
+            foreach ( var file in onlyBinaries )
             {
-                throw new Exception(
-                    innerException: exception,
-                    message: $@"Failed to embed.
+                var assemblyName = Path.GetFileNameWithoutExtension( file );
+
+                if ( options.UnmanagedAssemblies.All( x => !CompareAssemblyName( x.Name, assemblyName ) ) )
+                {
+                    yield return file;
+                }
+            }
+        }
+    }
+
+    private void Embed(
+        string prefix,
+        string fullPath,
+        bool compress,
+        bool addChecksum,
+        bool disableCleanup,
+        Checksums checksums )
+    {
+        try
+        {
+            this.InnerEmbed( prefix, fullPath, compress, addChecksum, disableCleanup, checksums );
+        }
+        catch ( Exception exception )
+        {
+            throw new InvalidOperationException(
+                innerException: exception,
+                message: $@"Failed to embed.
 prefix: {prefix}
 fullPath: {fullPath}
 compress: {compress}
 addChecksum: {addChecksum}
-disableCleanup: {disableCleanup}");
-            }
+disableCleanup: {disableCleanup}" );
+        }
+    }
+
+    private void InnerEmbed(
+        string prefix,
+        string fullPath,
+        bool compress,
+        bool addChecksum,
+        bool disableCleanup,
+        Checksums checksums )
+    {
+        if ( !disableCleanup )
+        {
+            // in any case we can remove this from the copy local paths, because either it's already embedded, or it will be embedded.
+            // ReferenceCopyLocalPaths.RemoveAll(item => string.Equals(item, fullPath, StringComparison.OrdinalIgnoreCase));
         }
 
-        private void InnerEmbed(string prefix, string fullPath, bool compress, bool addChecksum, bool disableCleanup,
-            Checksums checksums)
+        var resourceName = $"{prefix}{Path.GetFileName( fullPath ).ToLowerInvariant()}";
+
+        if ( compress )
         {
-            if (!disableCleanup)
-            {
-                // in any case we can remove this from the copy local paths, because either it's already embedded, or it will be embedded.
-                // ReferenceCopyLocalPaths.RemoveAll(item => string.Equals(item, fullPath, StringComparison.OrdinalIgnoreCase));
-            }
-
-            var resourceName = $"{prefix}{Path.GetFileName(fullPath).ToLowerInvariant()}";
-
-            if (compress) resourceName += ".compressed";
-
-            var checksum = Checksums.CalculateChecksum(fullPath);
-            var cacheFile = Path.Combine(_cachePath, $"{checksum}.{resourceName}");
-            var memoryStream = BuildMemoryStream(fullPath, compress, cacheFile);
-            Resources.Add((resourceName, memoryStream));
-            _context.AddResource(new ManagedResource(resourceName, memoryStream.GetBuffer()));
-
-            if (addChecksum) checksums.Add(resourceName, checksum);
+            resourceName += ".compressed";
         }
 
-        private static MemoryStream BuildMemoryStream(string fullPath, bool compress, string cacheFile)
-        {
-            var memoryStream = new MemoryStream();
+        var checksum = Checksums.CalculateChecksum( fullPath );
+        var cacheFile = Path.Combine( this._cachePath!, $"{checksum}.{resourceName}" );
+        var memoryStream = BuildMemoryStream( fullPath, compress, cacheFile );
+        this.Resources.Add( (resourceName, memoryStream) );
+        this._context.AddResource( new ManagedResource( resourceName, memoryStream.GetBuffer() ) );
 
-            if (File.Exists(cacheFile))
+        if ( addChecksum )
+        {
+            checksums.Add( resourceName, checksum );
+        }
+    }
+
+    private static MemoryStream BuildMemoryStream( string fullPath, bool compress, string cacheFile )
+    {
+        var memoryStream = new MemoryStream();
+
+        if ( File.Exists( cacheFile ) )
+        {
+            using var fileStream = File.Open( cacheFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite );
+            fileStream.CopyTo( memoryStream );
+        }
+        else
+        {
+            using var cacheFileStream = File.Open( cacheFile, FileMode.CreateNew, FileAccess.Write, FileShare.Read );
+            using var fileStream = File.Open( fullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite );
+
+            if ( compress )
             {
-                using var fileStream = File.Open(cacheFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                fileStream.CopyTo(memoryStream);
+                using var compressedStream = new DeflateStream( memoryStream, CompressionMode.Compress, true );
+                fileStream.CopyTo( compressedStream );
             }
             else
             {
-                using var cacheFileStream = File.Open(cacheFile, FileMode.CreateNew, FileAccess.Write, FileShare.Read);
-                using var fileStream = File.Open(fullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-
-                if (compress)
-                {
-                    using var compressedStream = new DeflateStream(memoryStream, CompressionMode.Compress, true);
-                    fileStream.CopyTo(compressedStream);
-                }
-                else
-                {
-                    fileStream.CopyTo(memoryStream);
-                }
-
-                memoryStream.Position = 0;
-                memoryStream.CopyTo(cacheFileStream);
+                fileStream.CopyTo( memoryStream );
             }
 
             memoryStream.Position = 0;
-            return memoryStream;
+            memoryStream.CopyTo( cacheFileStream );
         }
+
+        memoryStream.Position = 0;
+
+        return memoryStream;
     }
 }

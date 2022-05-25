@@ -12,7 +12,7 @@ using System.Linq;
 
 var product = new Product(Dependencies.MetalamaOpenDependencyEmbedder)
 {
-    Solutions = new Solution[] { new DotNetSolution( "Metalama.Open.DependencyEmbedder.sln" ) },
+    Solutions = new Solution[] { new DotNetSolution( "Metalama.Open.DependencyEmbedder.sln" ) { CanFormatCode = true } },
     PublicArtifacts = Pattern.Create( "Metalama.Open.DependencyEmbedder.$(PackageVersion).nupkg" ),
     Dependencies = new[] { Dependencies.PostSharpEngineering, Dependencies.Metalama },
     Configurations = Product.DefaultConfigurations

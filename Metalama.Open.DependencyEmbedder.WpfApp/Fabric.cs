@@ -1,9 +1,13 @@
-﻿using Metalama.Framework.Fabrics;
-using Metalama.Open.DependencyEmbedder;
+﻿// Copyright (c) SharpCrafters s.r.o. All rights reserved.
+// This project is not open source. Please see the LICENSE.md file in the repository root for details.
+
+using Metalama.Framework.Fabrics;
+
+namespace Metalama.Open.DependencyEmbedder.WpfApp;
 
 internal class Fabric : ProjectFabric
 {
-    public override void AmendProject(IProjectAmender amender)
+    public override void AmendProject( IProjectAmender amender )
     {
         amender.UseDependencyEmbedder();
     }

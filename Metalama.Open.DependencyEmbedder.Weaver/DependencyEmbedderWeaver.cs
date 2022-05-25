@@ -1,70 +1,82 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿// Copyright (c) SharpCrafters s.r.o. All rights reserved.
+// This project is not open source. Please see the LICENSE.md file in the repository root for details.
+
+using Metalama.Compiler;
+using Metalama.Framework.Engine.AspectWeavers;
 using Metalama.Framework.Engine.CodeModel;
-using Metalama.Framework.Engine.Sdk;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using System;
+using System.IO;
+using System.Linq;
 
-namespace Metalama.Open.DependencyEmbedder.Weaver
+namespace Metalama.Open.DependencyEmbedder.Weaver;
+
+[MetalamaPlugIn]
+public class DependencyEmbedderWeaver : IAspectWeaver
 {
-    [CompilerPlugin]
-    [AspectWeaver(typeof(DependencyEmbedderAspect))]
-    public class DependencyEmbedderWeaver : IAspectWeaver
+    public void Transform( AspectWeaverContext context )
     {
-        public void Transform(AspectWeaverContext context)
+        var compilation = (CSharpCompilation) context.Compilation.Compilation;
+
+        // Check the language version.
+        if ( compilation.LanguageVersion < LanguageVersion.CSharp9 )
         {
-            var compilation = (CSharpCompilation)context.Compilation.Compilation;
-
-            // Check the language version.
-            if (compilation.LanguageVersion < LanguageVersion.CSharp9)
-            {
-                context.ReportDiagnostic(Diagnostic.Create(
+            context.ReportDiagnostic(
+                Diagnostic.Create(
                     new DiagnosticDescriptor(
-                        "DE001", "Language version too low",
+                        "DE001",
+                        "Language version too low",
                         "Metalama.Open.DependencyEmbedder requires language version at least 9.0, but it's set to {0}.",
-                        "Metalama.Open.DependencyEmbedder", DiagnosticSeverity.Error, true),
-                    null, new object[] { compilation.LanguageVersion.ToDisplayString() }));
-                return;
-            }
+                        "Metalama.Open.DependencyEmbedder",
+                        DiagnosticSeverity.Error,
+                        true ),
+                    null,
+                    compilation.LanguageVersion.ToDisplayString() ) );
 
-            var options = context.Project.Extension<DependencyEmbedderOptions>();
+            return;
+        }
 
-            var excludedPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
-                @"Reference Assemblies\Microsoft\Framework\.NETFramework");
+        var options = context.Project.Extension<DependencyEmbedderOptions>();
 
-            var paths = compilation.References.Select(r => r switch
+        var excludedPath = Path.Combine(
+            Environment.GetFolderPath( Environment.SpecialFolder.ProgramFilesX86 ),
+            @"Reference Assemblies\Microsoft\Framework\.NETFramework" );
+
+        var paths = compilation.References.Select(
+                r => r switch
                 {
                     PortableExecutableReference peReference => peReference.FilePath,
                     _ => throw new NotSupportedException()
-                })
-                .Where(path => path != null && !path.StartsWith(excludedPath))
-                .ToArray();
+                } )
+            .Where( path => path != null && !path.StartsWith( excludedPath, StringComparison.OrdinalIgnoreCase ) )
+            .ToArray();
 
-            var parseOptions = new CSharpParseOptions(compilation.LanguageVersion);
+        var parseOptions = new CSharpParseOptions( compilation.LanguageVersion );
 
-            // Embed resources:
-            var checksums = new Checksums();
-            var resourceEmbedder = new ResourceEmbedder(context);
-            resourceEmbedder.EmbedResources(options, paths!, checksums);
-            var unmanagedFromEmbedder = resourceEmbedder.HasUnmanaged;
+        // Embed resources.
+        var checksums = new Checksums();
+        var resourceEmbedder = new ResourceEmbedder( context );
+        resourceEmbedder.EmbedResources( options, paths!, checksums );
+        var unmanagedFromEmbedder = resourceEmbedder.HasUnmanaged;
 
-            // Load references:
-            var info = AssemblyLoaderInfo.LoadAssemblyLoader(options.CreateTemporaryAssemblies, unmanagedFromEmbedder,
-                ref compilation, parseOptions);
+        // Load references.
+        var assemblyLoaderInfo = AssemblyLoaderInfo.LoadAssemblyLoader( options.CreateTemporaryAssemblies, unmanagedFromEmbedder );
 
-            // Alter code:
-            var resourcesHash = ResourceHash.CalculateHash(resourceEmbedder.Resources);
-            new AttachCallSynthesis().SynthesizeCallToAttach(ref compilation, parseOptions, info);
-            new ResourceNameFinder(info, resourceEmbedder.Resources.Select(r => r.Name)).FillInStaticConstructor(
-                options.CreateTemporaryAssemblies,
-                options.PreloadOrder,
-                resourcesHash,
-                checksums);
+        // Generate code.
+        var resourcesHash = ResourceHash.CalculateHash( resourceEmbedder.Resources );
+        var moduleInitializerCode = Resources.ModuleInitializer.Replace( "TEMPLATE", assemblyLoaderInfo.SourceTypeName );
 
+        var sourceTypeSyntax = new ResourceNameFinder( assemblyLoaderInfo, resourceEmbedder.Resources.Select( r => r.Name ) ).FillInStaticConstructor(
+            options.CreateTemporaryAssemblies,
+            options.PreloadOrder,
+            resourcesHash,
+            checksums );
 
-            context.Compilation =
-                context.Compilation.AddSyntaxTrees(SyntaxFactory.SyntaxTree(info.SourceType, parseOptions));
-        }
+        // Add syntax trees.
+        context.Compilation = context.Compilation.AddSyntaxTrees(
+            SyntaxFactory.ParseSyntaxTree( moduleInitializerCode, parseOptions, path: "__DependencyEmbedder.ModuleInitializer.cs" ),
+            SyntaxFactory.ParseSyntaxTree( Resources.Common, parseOptions, "__DependencyEmbedder.Common.cs" ),
+            SyntaxFactory.SyntaxTree( sourceTypeSyntax, parseOptions, $"__DependencyEmbedder.{assemblyLoaderInfo.SourceTypeName}.cs" ) );
     }
 }

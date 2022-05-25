@@ -1,19 +1,23 @@
-﻿using System;
+﻿// Copyright (c) SharpCrafters s.r.o. All rights reserved.
+// This project is not open source. Please see the LICENSE.md file in the repository root for details.
+
 using Metalama.Framework.Aspects;
 using Metalama.Framework.Fabrics;
+using System;
 
-namespace Metalama.Open.DependencyEmbedder
+namespace Metalama.Open.DependencyEmbedder;
+
+[CompileTime]
+public static class DependencyEmbedderProjectExtensions
 {
-    [CompileTimeOnly]
-    public static class DependencyEmbedderProjectExtensions
+    public static void UseDependencyEmbedder(
+        this IProjectAmender projectAmender,
+        Action<DependencyEmbedderOptions>? configure = null )
     {
-        public static void UseDependencyEmbedder(this IProjectAmender projectAmender,
-            Action<DependencyEmbedderOptions>? configure = null)
-        {
-            var options = projectAmender.Project.Extension<DependencyEmbedderOptions>();
-            if (configure != null) configure(options);
+        var options = projectAmender.Project.Extension<DependencyEmbedderOptions>();
 
-            projectAmender.WithTargetMembers(c => new[] { c }).AddAspect(_ => new DependencyEmbedderAspect());
-        }
+        configure?.Invoke( options );
+
+        projectAmender.With( c => c ).AddAspect<DependencyEmbedderAspect>();
     }
 }
