@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace Metalama.Open.DependencyEmbedder.Weaver;
 
@@ -56,7 +57,7 @@ public class DependencyEmbedderWeaver : IAspectWeaver
 
         // Embed resources.
         var checksums = new Checksums();
-        var resourceEmbedder = new ResourceEmbedder( context );
+        var resourceEmbedder = new ResourceEmbedder();
         resourceEmbedder.EmbedResources( options, paths!, checksums );
         var unmanagedFromEmbedder = resourceEmbedder.HasUnmanaged;
 
@@ -75,8 +76,9 @@ public class DependencyEmbedderWeaver : IAspectWeaver
 
         // Add syntax trees.
         context.Compilation = context.Compilation.AddSyntaxTrees(
-            SyntaxFactory.ParseSyntaxTree( moduleInitializerCode, parseOptions, path: "__DependencyEmbedder.ModuleInitializer.cs" ),
-            SyntaxFactory.ParseSyntaxTree( Resources.Common, parseOptions, "__DependencyEmbedder.Common.cs" ),
-            SyntaxFactory.SyntaxTree( sourceTypeSyntax, parseOptions, $"__DependencyEmbedder.{assemblyLoaderInfo.SourceTypeName}.cs" ) );
+                SyntaxFactory.ParseSyntaxTree( moduleInitializerCode, parseOptions, "__DependencyEmbedder.ModuleInitializer.cs", Encoding.UTF8 ),
+                SyntaxFactory.ParseSyntaxTree( Resources.Common, parseOptions, "__DependencyEmbedder.Common.cs", Encoding.UTF8 ),
+                SyntaxFactory.SyntaxTree( sourceTypeSyntax, parseOptions, $"__DependencyEmbedder.{assemblyLoaderInfo.SourceTypeName}.cs", Encoding.UTF8 ) )
+            .WithAdditionalResources( resourceEmbedder.Resources.ToArray() );
     }
 }

@@ -7,12 +7,15 @@ using System.Collections.Immutable;
 
 namespace Metalama.Open.DependencyEmbedder;
 
-public class DependencyEmbedderOptions : ProjectExtension
+public sealed class DependencyEmbedderOptions : ProjectExtension
 {
     private bool _createTemporaryAssemblies;
     private bool _disableCleanup;
     private ImmutableArray<string> _excludedAssemblies = ImmutableArray<string>.Empty;
-    private ImmutableArray<string> _includedAssemblies = ImmutableArray<string>.Empty;
+
+    // Intentionally not initialized to empty because a default value means that all assemblies are to be included unless they are excluded.
+    private ImmutableArray<string> _includedAssemblies;
+
     private ImmutableArray<string> _preloadOrder = ImmutableArray<string>.Empty;
     private ImmutableArray<UnmanagedAssembly> _unmanagedAssemblies = ImmutableArray<UnmanagedAssembly>.Empty;
     private bool _useCompression = true;
@@ -50,25 +53,21 @@ public class DependencyEmbedderOptions : ProjectExtension
     }
 
     /// <summary>
-    ///     This option doesn't work. If it did, it would control whether
+    ///     Gets or sets a value indicating whether
     ///     embedded assemblies are placed in the output folder anyway, even
     ///     though they aren't necessary anymore.
     /// </summary>
     public bool IsCleanupDisabled
     {
         get => this._disableCleanup;
+
+        [Obsolete( "This option does not work." )]
         set
         {
             this.CheckWritable();
             this._disableCleanup = value;
         }
     }
-
-    /// <summary>
-    /// If true, then Packer will bootstrap itself in your assembly's module initializer and you don't need to
-    /// call <see cref="PackerUtility.Initialize"/>. Default true ("load automatically").
-    /// </summary>
-    //public bool LoadAtModuleInit { get; set; }
 
     /// <summary>
     ///     Gets or sets a value indicating whether embedded assemblies should be copied to disk before loading them into
@@ -150,7 +149,7 @@ public class DependencyEmbedderOptions : ProjectExtension
     }
 
     /// <summary>
-    ///     Native libraries can be loaded by this add-in automatically.
+    ///     Gets or sets the list of native libraries can be loaded by this add-in automatically.
     ///     To include a native library include it in your project as an
     ///     Embedded Resource in a folder called DependencyEmbedder32 or DependencyEmbedder64
     ///     depending on the bitness of the library.

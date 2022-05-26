@@ -11,14 +11,14 @@ namespace Metalama.Open.DependencyEmbedder.Tests;
 
 public class BasicTest
 {
-    private const string _folder = @"..\net472\";
+    private readonly string _folder = Environment.CurrentDirectory;
 
     [Fact]
     public void TestTestAssemblyWithReferences()
     {
-        DeleteAllButExes( _folder );
+        DeleteAllButExes( this._folder );
         var filename = "Metalama.Open.DependencyEmbedder.TestApp.exe";
-        var p = Process.Start( Path.Combine( _folder, filename ) );
+        var p = Process.Start( Path.Combine( this._folder, filename ) );
         Assert.True( p.WaitForExit( 5000 ) );
         Assert.Equal( 0, p.ExitCode );
     }
@@ -26,9 +26,9 @@ public class BasicTest
     [Fact]
     public void TestWpf()
     {
-        DeleteAllButExes( _folder );
+        DeleteAllButExes( this._folder );
         var filename = "Metalama.Open.DependencyEmbedder.WpfApp.exe";
-        var p = Process.Start( Path.Combine( _folder, filename ) );
+        var p = Process.Start( Path.Combine( this._folder, filename ) );
         Assert.True( p.WaitForExit( 35000 ) );
         Assert.Equal( 0, p.ExitCode );
     }

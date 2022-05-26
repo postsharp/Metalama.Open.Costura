@@ -2,7 +2,6 @@
 // This project is not open source. Please see the LICENSE.md file in the repository root for details.
 
 using Metalama.Compiler;
-using Metalama.Framework.Engine.AspectWeavers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,19 +10,13 @@ using System.Linq;
 
 namespace Metalama.Open.DependencyEmbedder.Weaver;
 
-public class ResourceEmbedder
+internal class ResourceEmbedder
 {
-    private readonly AspectWeaverContext _context;
     private string? _cachePath;
-
-    public ResourceEmbedder( AspectWeaverContext context )
-    {
-        this._context = context;
-    }
 
     public bool HasUnmanaged { get; private set; }
 
-    public List<(string Name, Stream Stream)> Resources { get; } = new();
+    public List<ManagedResource> Resources { get; } = new();
 
     public void EmbedResources(
         DependencyEmbedderOptions options,
@@ -284,8 +277,7 @@ disableCleanup: {disableCleanup}" );
         var checksum = Checksums.CalculateChecksum( fullPath );
         var cacheFile = Path.Combine( this._cachePath!, $"{checksum}.{resourceName}" );
         var memoryStream = BuildMemoryStream( fullPath, compress, cacheFile );
-        this.Resources.Add( (resourceName, memoryStream) );
-        this._context.AddResource( new ManagedResource( resourceName, memoryStream.GetBuffer() ) );
+        this.Resources.Add( new ManagedResource( resourceName, memoryStream.ToArray() ) );
 
         if ( addChecksum )
         {

@@ -1,24 +1,24 @@
 // Copyright (c) SharpCrafters s.r.o. All rights reserved.
 // This project is not open source. Please see the LICENSE.md file in the repository root for details.
 
+using Metalama.Compiler;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace Metalama.Open.DependencyEmbedder.Weaver;
 
-public static class ResourceHash
+internal static class ResourceHash
 {
-    public static string CalculateHash( List<(string Name, Stream Stream)> resources )
+    public static string CalculateHash( List<ManagedResource> resources )
     {
         var data = resources
             .OrderBy( r => r.Name )
             .Where( r => r.Name.StartsWith( "DependencyEmbedder", StringComparison.Ordinal ) )
-            .Select( r => r.Stream )
+            .Select( r => r.DataProvider!.Invoke() )
             .ToArray();
 
         var allStream = new ConcatenatedStream( data );

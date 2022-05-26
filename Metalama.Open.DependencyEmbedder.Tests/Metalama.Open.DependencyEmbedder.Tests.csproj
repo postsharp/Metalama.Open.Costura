@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <!-- Must be .NET Framework because DependencyEmbedder does not make sense for .NET Core -->
+        <TargetFramework>net48</TargetFramework>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 

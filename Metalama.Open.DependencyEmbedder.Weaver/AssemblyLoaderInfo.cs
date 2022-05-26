@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Metalama.Open.DependencyEmbedder.Weaver;
 
-public class AssemblyLoaderInfo
+internal class AssemblyLoaderInfo
 {
     public const string AssemblyNamesField = "assemblyNames";
 
@@ -39,23 +39,21 @@ public class AssemblyLoaderInfo
         bool createTemporaryAssemblies,
         bool hasUnmanaged )
     {
+        var sourceTypeName = "DependencyExtractor";
+
         string sourceTypeCode;
-        string sourceTypeName;
 
         if ( createTemporaryAssemblies )
         {
             sourceTypeCode = Resources.TemplateWithTempAssembly;
-            sourceTypeName = "TemplateWithTempAssembly";
         }
         else if ( hasUnmanaged )
         {
             sourceTypeCode = Resources.TemplateWithUnmanagedHandler;
-            sourceTypeName = "TemplateWithUnmanagedHandler";
         }
         else
         {
             sourceTypeCode = Resources.Template;
-            sourceTypeName = "Template";
         }
 
         var sourceTypeSyntax = SyntaxFactory.ParseCompilationUnit( sourceTypeCode );

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Metalama.Open.DependencyEmbedder.Weaver;
 
-public class Checksums
+internal class Checksums
 {
     private readonly Dictionary<string, string> _checksums = new();
 

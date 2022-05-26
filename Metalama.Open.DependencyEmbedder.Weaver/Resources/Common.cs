@@ -12,9 +12,9 @@ using System.Threading;
 
 // ReSharper disable CommentTypo
 
-namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
+namespace Metalama.Open.DependencyEmbedder.RunTime
 {
-    internal static class Common
+    internal static partial class DependencyExtractor
     {
         [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
         static extern IntPtr LoadLibrary(string dllToLoad);

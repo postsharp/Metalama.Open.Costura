@@ -6,15 +6,3 @@ namespace System.Runtime.CompilerServices
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public sealed class ModuleInitializerAttribute : Attribute { }
 }
-
-namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
-{
-    static class ModuleInitializer
-    {
-        [ModuleInitializer]
-        internal static void Initialize()
-        {
-            TEMPLATE.Attach();
-        }
-    }
-}

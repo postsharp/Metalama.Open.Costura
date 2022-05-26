@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using System.Runtime.CompilerServices;
 
-namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
+namespace Metalama.Open.DependencyEmbedder.RunTime
 {
-    internal static class TemplateWithTempAssembly
+    internal static partial class DependencyExtractor
     {
         static object nullCacheLock = new object();
         static Dictionary<string, bool> nullCache = new Dictionary<string, bool>();
@@ -25,7 +26,8 @@ namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
         private static string md5Hash;
 #pragma warning restore 649
 
-        public static void Attach()
+        [ModuleInitializer]
+        public static void Initialize()
         {
             if (Interlocked.Exchange(ref isAttached, 1) == 1)
             {
@@ -41,7 +43,7 @@ namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
             var libList = new List<string>();
             libList.AddRange(unmanagedAssemblies);
             libList.AddRange(preloadList);
-            Common.PreloadUnmanagedLibraries(md5Hash, tempBasePath, libList, checksums);
+            PreloadUnmanagedLibraries(md5Hash, tempBasePath, libList, checksums);
 
             var currentDomain = AppDomain.CurrentDomain;
             currentDomain.AssemblyResolve += ResolveAssembly;
@@ -59,15 +61,15 @@ namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
 
             var requestedAssemblyName = new AssemblyName(e.Name);
 
-            var assembly = Common.ReadExistingAssembly(requestedAssemblyName);
+            var assembly = ReadExistingAssembly(requestedAssemblyName);
             if (assembly != null)
             {
                 return assembly;
             }
 
-            Common.Log("Loading assembly '{0}' into the AppDomain", requestedAssemblyName);
+            Log("Loading assembly '{0}' into the AppDomain", requestedAssemblyName);
 
-            assembly = Common.ReadFromDiskCache(tempBasePath, requestedAssemblyName);
+            assembly = ReadFromDiskCache(tempBasePath, requestedAssemblyName);
             if (assembly == null)
             {
                 lock (nullCacheLock)

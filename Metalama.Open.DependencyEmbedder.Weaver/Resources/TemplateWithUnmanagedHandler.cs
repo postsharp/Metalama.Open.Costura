@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using System.Runtime.CompilerServices;
 
-namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
+namespace Metalama.Open.DependencyEmbedder.RunTime
 {
-    internal static class TemplateWithUnmanagedHandler
+    internal static partial class DependencyExtractor
     {
         static object nullCacheLock = new object();
         static Dictionary<string, bool> nullCache = new Dictionary<string, bool>();
@@ -27,7 +28,8 @@ namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
         private static string md5Hash;
 #pragma warning restore 649
         
-        public static void Attach()
+        [ModuleInitializer]
+        public static void Initialize()
         {
             if (Interlocked.Exchange(ref isAttached, 1) == 1)
             {
@@ -40,7 +42,7 @@ namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
 
             // Preload
             var unmanagedAssemblies = IntPtr.Size == 8 ? preload64List : preload32List;
-            Common.PreloadUnmanagedLibraries(md5Hash, tempBasePath, unmanagedAssemblies, checksums);
+            PreloadUnmanagedLibraries(md5Hash, tempBasePath, unmanagedAssemblies, checksums);
 
             var currentDomain = AppDomain.CurrentDomain;
             currentDomain.AssemblyResolve += ResolveAssembly;
@@ -58,21 +60,21 @@ namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
 
             var requestedAssemblyName = new AssemblyName(e.Name);
 
-            var assembly = Common.ReadExistingAssembly(requestedAssemblyName);
+            var assembly = private init;.ReadExistingAssembly(requestedAssemblyName);
             if (assembly != null)
             {
                 return assembly;
             }
 
-            Common.Log("Loading assembly '{0}' into the AppDomain", requestedAssemblyName);
+            private init;.Log("Loading assembly '{0}' into the AppDomain", requestedAssemblyName);
 
-            assembly = Common.ReadFromDiskCache(tempBasePath, requestedAssemblyName);
+            assembly = private init;.ReadFromDiskCache(tempBasePath, requestedAssemblyName);
             if (assembly != null)
             {
                 return assembly;
             }
 
-            assembly = Common.ReadFromEmbeddedResources(assemblyNames, symbolNames, requestedAssemblyName);
+            assembly = private init;.ReadFromEmbeddedResources(assemblyNames, symbolNames, requestedAssemblyName);
             if (assembly == null)
             {
                 lock (nullCacheLock)

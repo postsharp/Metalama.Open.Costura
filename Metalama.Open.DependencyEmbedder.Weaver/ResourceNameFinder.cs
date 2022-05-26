@@ -12,7 +12,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Metalama.Open.DependencyEmbedder.Weaver;
 
-public class ResourceNameFinder
+internal class ResourceNameFinder
 {
     private readonly AssemblyLoaderInfo _info;
     private readonly IEnumerable<string> _resourceNames;
@@ -42,7 +42,7 @@ public class ResourceNameFinder
 
                     return name;
                 },
-                ( s, r ) => r )
+                ( _, r ) => r )
             .Union( this._resourceNames.OrderBy( r => r ) );
 
         foreach ( var resource in orderedResources )

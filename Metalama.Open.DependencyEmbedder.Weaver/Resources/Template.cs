@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
+using System.Runtime.CompilerServices;
 
-namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
+namespace Metalama.Open.DependencyEmbedder.RunTime
 {
-    internal static class Template
+    internal static partial class DependencyExtractor
     {
         static object nullCacheLock = new object();
         static Dictionary<string, bool> nullCache = new Dictionary<string, bool>();
@@ -15,7 +16,8 @@ namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
 
         static int isAttached;
 
-        public static void Attach()
+        [ModuleInitializer]
+        public static void Initialize()
         {
             if (Interlocked.Exchange(ref isAttached, 1) == 1)
             {
@@ -38,15 +40,15 @@ namespace Metalama.Open.DependencyEmbedder.Weaver.Templates
 
             var requestedAssemblyName = new AssemblyName(e.Name);
 
-            var assembly = Common.ReadExistingAssembly(requestedAssemblyName);
+            var assembly = ReadExistingAssembly(requestedAssemblyName);
             if (assembly != null)
             {
                 return assembly;
             }
 
-            Common.Log("Loading assembly '{0}' into the AppDomain", requestedAssemblyName);
+            Log("Loading assembly '{0}' into the AppDomain", requestedAssemblyName);
 
-            assembly = Common.ReadFromEmbeddedResources(assemblyNames, symbolNames, requestedAssemblyName);
+            assembly = ReadFromEmbeddedResources(assemblyNames, symbolNames, requestedAssemblyName);
             if (assembly == null)
             {
                 lock (nullCacheLock)
