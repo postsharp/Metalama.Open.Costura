@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Threading;
 using System.Runtime.CompilerServices;
 
+#nullable disable
+
 namespace Metalama.Open.DependencyEmbedder.RunTime
 {
     internal static partial class DependencyExtractor
