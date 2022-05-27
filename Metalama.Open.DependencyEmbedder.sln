@@ -3,22 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30626.31
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metalama.Open.DependencyEmbedder", "Metalama.Open.DependencyEmbedder\Metalama.Open.DependencyEmbedder.csproj", "{BC129F02-7A24-4BD6-977E-F21BDFF65840}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metalama.Open.DependencyEmbedder", "src\Metalama.Open.DependencyEmbedder\Metalama.Open.DependencyEmbedder.csproj", "{BC129F02-7A24-4BD6-977E-F21BDFF65840}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metalama.Open.DependencyEmbedder.TestApp", "Metalama.Open.DependencyEmbedder.TestApp\Metalama.Open.DependencyEmbedder.TestApp.csproj", "{F66C6EA7-EDE8-4031-B22C-7AB568B2CA5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metalama.Open.DependencyEmbedder.TestApp", "src\Metalama.Open.DependencyEmbedder.TestApp\Metalama.Open.DependencyEmbedder.TestApp.csproj", "{F66C6EA7-EDE8-4031-B22C-7AB568B2CA5B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metalama.Open.DependencyEmbedder.WpfApp", "Metalama.Open.DependencyEmbedder.WpfApp\Metalama.Open.DependencyEmbedder.WpfApp.csproj", "{877EB5A0-E16D-4A91-B939-519C9289DF50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metalama.Open.DependencyEmbedder.WpfApp", "src\Metalama.Open.DependencyEmbedder.WpfApp\Metalama.Open.DependencyEmbedder.WpfApp.csproj", "{877EB5A0-E16D-4A91-B939-519C9289DF50}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D8717C52-6C8C-45D6-941F-490386FC394C}"
-	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
-		Directory.Build.props = Directory.Build.props
-		LICENSE.md = LICENSE.md
-		.github\workflows\main.yml = .github\workflows\main.yml
-		README.md = README.md
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metalama.Open.DependencyEmbedder.Weaver", "Metalama.Open.DependencyEmbedder.Weaver\Metalama.Open.DependencyEmbedder.Weaver.csproj", "{8A554454-2432-4A65-8A65-D5AA15D16B60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metalama.Open.DependencyEmbedder.Weaver", "src\Metalama.Open.DependencyEmbedder.Weaver\Metalama.Open.DependencyEmbedder.Weaver.csproj", "{8A554454-2432-4A65-8A65-D5AA15D16B60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
