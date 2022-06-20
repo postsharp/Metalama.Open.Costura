@@ -10,10 +10,10 @@ using PostSharp.Engineering.BuildTools.Dependencies.Model;
 using Spectre.Console.Cli;
 using System.Linq;
 
-var product = new Product(Dependencies.MetalamaOpenDependencyEmbedder)
+var product = new Product(Dependencies.MetalamaOpenCostura)
 {
-    Solutions = new Solution[] { new DotNetSolution( "Metalama.Open.DependencyEmbedder.sln" ) { CanFormatCode = true } },
-    PublicArtifacts = Pattern.Create( "Metalama.Open.DependencyEmbedder.$(PackageVersion).nupkg" ),
+    Solutions = new Solution[] { new DotNetSolution( "Metalama.Open.Costura.sln" ) { CanFormatCode = true } },
+    PublicArtifacts = Pattern.Create( "Metalama.Open.Costura.$(PackageVersion).nupkg" ),
     Dependencies = new[] { Dependencies.PostSharpEngineering, Dependencies.Metalama },
     Configurations = Product.DefaultConfigurations
         .WithValue( BuildConfiguration.Public, new BuildConfigurationInfo(

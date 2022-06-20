@@ -4,8 +4,8 @@
     <Import Project="MainVersion.props" />
 
     <PropertyGroup>
-        <MetalamaOpenDependencyEmbedderVersion>$(MainVersion)$(PackageVersionSuffix)</MetalamaOpenDependencyEmbedderVersion>
-        <MetalamaOpenDependencyEmbedderAssemblyVersion>$(MainVersion)</MetalamaOpenDependencyEmbedderAssemblyVersion>
+        <MetalamaOpenCosturaVersion>$(MainVersion)$(PackageVersionSuffix)</MetalamaOpenCosturaVersion>
+        <MetalamaOpenCosturaAssemblyVersion>$(MainVersion)</MetalamaOpenCosturaAssemblyVersion>
     </PropertyGroup>
 
     <!-- Set the default versions of dependencies -->
@@ -23,8 +23,8 @@
     <Import Project="Versions.g.props" Condition="Exists('Versions.g.props')" />
 
     <PropertyGroup>
-        <AssemblyVersion>$(MetalamaOpenDependencyEmbedderAssemblyVersion)</AssemblyVersion>
-        <Version>$(MetalamaOpenDependencyEmbedderVersion)</Version>
+        <AssemblyVersion>$(MetalamaOpenCosturaAssemblyVersion)</AssemblyVersion>
+        <Version>$(MetalamaOpenCosturaVersion)</Version>
     </PropertyGroup>
 
 </Project>

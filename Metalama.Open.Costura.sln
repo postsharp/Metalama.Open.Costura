@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30626.31
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metalama.Open.Costura", "src\Metalama.Open.Costura\Metalama.Open.Costura.csproj", "{BC129F02-7A24-4BD6-977E-F21BDFF65840}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metalama.Open.Costura.TestApp", "src\Metalama.Open.Costura.TestApp\Metalama.Open.Costura.TestApp.csproj", "{F66C6EA7-EDE8-4031-B22C-7AB568B2CA5B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metalama.Open.Costura.WpfApp", "src\Metalama.Open.Costura.WpfApp\Metalama.Open.Costura.WpfApp.csproj", "{877EB5A0-E16D-4A91-B939-519C9289DF50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metalama.Open.Costura.Weaver", "src\Metalama.Open.Costura.Weaver\Metalama.Open.Costura.Weaver.csproj", "{8A554454-2432-4A65-8A65-D5AA15D16B60}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC129F02-7A24-4BD6-977E-F21BDFF65840}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC129F02-7A24-4BD6-977E-F21BDFF65840}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC129F02-7A24-4BD6-977E-F21BDFF65840}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC129F02-7A24-4BD6-977E-F21BDFF65840}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F66C6EA7-EDE8-4031-B22C-7AB568B2CA5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F66C6EA7-EDE8-4031-B22C-7AB568B2CA5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F66C6EA7-EDE8-4031-B22C-7AB568B2CA5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F66C6EA7-EDE8-4031-B22C-7AB568B2CA5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{877EB5A0-E16D-4A91-B939-519C9289DF50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{877EB5A0-E16D-4A91-B939-519C9289DF50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{877EB5A0-E16D-4A91-B939-519C9289DF50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{877EB5A0-E16D-4A91-B939-519C9289DF50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A554454-2432-4A65-8A65-D5AA15D16B60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A554454-2432-4A65-8A65-D5AA15D16B60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A554454-2432-4A65-8A65-D5AA15D16B60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A554454-2432-4A65-8A65-D5AA15D16B60}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AE5473BD-7FBA-4538-9F79-A48A3C43234A}
+	EndGlobalSection
+EndGlobal

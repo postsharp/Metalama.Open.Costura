@@ -5,7 +5,7 @@
     <!-- Properties of NuGet packages-->
     <PropertyGroup>
         <Authors>PostSharp Technologies</Authors>
-        <PackageProjectUrl>https://github.com/postsharp/Metalama.Open.DependencyEmbedder</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/postsharp/Metalama.Open.Costura</PackageProjectUrl>
         <PackageTags></PackageTags>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
