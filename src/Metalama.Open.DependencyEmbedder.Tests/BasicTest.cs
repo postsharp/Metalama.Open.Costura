@@ -10,13 +10,19 @@ namespace Metalama.Open.DependencyEmbedder.Tests;
 
 public class BasicTest
 {
+#if DEBUG
+    private const string _configuration = "Debug";
+#else
+    private const string _configuration = "Release";
+#endif
+
     private readonly string _folder = Environment.CurrentDirectory;
 
     [Fact]
     public void TestTestAssemblyWithReferences()
     {
         
-        var filename = @"..\..\..\..\Metalama.Open.DependencyEmbedder.TestApp\bin\Debug\net48\Metalama.Open.DependencyEmbedder.TestApp.exe";
+        var filename = $@"..\..\..\..\Metalama.Open.DependencyEmbedder.TestApp\bin\{_configuration}\net48\Metalama.Open.DependencyEmbedder.TestApp.exe";
         DeleteAllButExes( filename );
         var p = Process.Start( Path.Combine( this._folder, filename ) );
         Assert.True( p.WaitForExit( 5000 ) );
@@ -27,7 +33,7 @@ public class BasicTest
     public void TestWpf()
     {
         
-        var filename = @"..\..\..\..\Metalama.Open.DependencyEmbedder.WpfApp\bin\Debug\net48\Metalama.Open.DependencyEmbedder.WpfApp.exe";
+        var filename = $@"..\..\..\..\Metalama.Open.DependencyEmbedder.WpfApp\bin\{_configuration}\net48\Metalama.Open.DependencyEmbedder.WpfApp.exe";
         DeleteAllButExes( filename );
         var p = Process.Start( Path.Combine( this._folder, filename ) );
         Assert.True( p.WaitForExit( 35000 ) );
