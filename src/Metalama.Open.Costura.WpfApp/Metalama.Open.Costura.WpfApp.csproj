@@ -9,7 +9,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Metalama.Open.Costura.Weaver\Metalama.Open.Costura.Weaver.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
         <ProjectReference Include="..\Metalama.Open.Costura\Metalama.Open.Costura.csproj" OutputItemType="Analyzer"/>
-        <PackageReference Include="Metalama.Framework" Version="$(MetalamaVersion)"/>
+        <PackageReference Include="Metalama.Framework" Version="$(MetalamaVersion)" PrivateAssets="all"/>
     </ItemGroup>
 
 </Project>

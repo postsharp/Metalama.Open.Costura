@@ -1,5 +1,4 @@
-// Copyright (c) SharpCrafters s.r.o. All rights reserved.
-// This project is not open source. Please see the LICENSE.md file in the repository root for details.
+// This is an open-source Metalama example. See https://github.com/postsharp/Metalama.Samples for more.
 
 using System;
 using System.Diagnostics;
@@ -16,8 +15,9 @@ public class BasicTest
     [Fact]
     public void TestTestAssemblyWithReferences()
     {
-        DeleteAllButExes( this._folder );
-        var filename = "Metalama.Open.Costura.TestApp.exe";
+        
+        var filename = @"..\..\..\..\Metalama.Open.Costura.TestApp\bin\Debug\net48\Metalama.Open.Costura.TestApp.exe";
+        DeleteAllButExes( filename );
         var p = Process.Start( Path.Combine( this._folder, filename ) );
         Assert.True( p.WaitForExit( 5000 ) );
         Assert.Equal( 0, p.ExitCode );
@@ -26,16 +26,17 @@ public class BasicTest
     [Fact]
     public void TestWpf()
     {
-        DeleteAllButExes( this._folder );
-        var filename = "Metalama.Open.Costura.WpfApp.exe";
+        
+        var filename = @"..\..\..\..\Metalama.Open.Costura.WpfApp\bin\Debug\net48\Metalama.Open.Costura.WpfApp.exe";
+        DeleteAllButExes( filename );
         var p = Process.Start( Path.Combine( this._folder, filename ) );
         Assert.True( p.WaitForExit( 35000 ) );
         Assert.Equal( 0, p.ExitCode );
     }
 
-    private static void DeleteAllButExes( string folder )
+    private static void DeleteAllButExes( string file )
     {
-        foreach ( var filename in Directory.EnumerateFiles( folder ).ToList() )
+        foreach ( var filename in Directory.EnumerateFiles( Path.GetDirectoryName(file)! ).ToList() )
         {
             if ( filename.EndsWith( ".exe", StringComparison.OrdinalIgnoreCase ) )
             {

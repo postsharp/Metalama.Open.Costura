@@ -10,6 +10,6 @@ public partial class MainWindow
     public MainWindow()
     {
         this.InitializeComponent();
-        this.Loaded += ( _, _ ) => { this.Close(); };
+        this.Loaded += ( _, _ ) => this.Close();
     }
 }
