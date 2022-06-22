@@ -21,7 +21,6 @@ public class BasicTest
     [Fact]
     public void TestTestAssemblyWithReferences()
     {
-        
         var filename = $@"..\..\..\..\Metalama.Open.DependencyEmbedder.TestApp\bin\{_configuration}\net48\Metalama.Open.DependencyEmbedder.TestApp.exe";
         DeleteAllButExes( filename );
         var p = Process.Start( Path.Combine( this._folder, filename ) );
@@ -32,7 +31,6 @@ public class BasicTest
     [Fact]
     public void TestWpf()
     {
-        
         var filename = $@"..\..\..\..\Metalama.Open.DependencyEmbedder.WpfApp\bin\{_configuration}\net48\Metalama.Open.DependencyEmbedder.WpfApp.exe";
         DeleteAllButExes( filename );
         var p = Process.Start( Path.Combine( this._folder, filename ) );
@@ -42,7 +40,7 @@ public class BasicTest
 
     private static void DeleteAllButExes( string file )
     {
-        foreach ( var filename in Directory.EnumerateFiles( Path.GetDirectoryName(file)! ).ToList() )
+        foreach ( var filename in Directory.EnumerateFiles( Path.GetDirectoryName( file )! ).ToList() )
         {
             if ( filename.EndsWith( ".exe", StringComparison.OrdinalIgnoreCase ) )
             {
