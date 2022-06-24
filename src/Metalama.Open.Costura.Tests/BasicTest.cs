@@ -10,6 +10,12 @@ namespace Metalama.Open.Costura.Tests;
 
 public class BasicTest
 {
+#if DEBUG
+    private const string _configuration = "Debug";
+#else
+    private const string _configuration = "Release";
+#endif
+
     private readonly string _folder = Environment.CurrentDirectory;
 
     [Fact]
@@ -36,7 +42,7 @@ public class BasicTest
 
     private static void DeleteAllButExes( string file )
     {
-        foreach ( var filename in Directory.EnumerateFiles( Path.GetDirectoryName(file)! ).ToList() )
+        foreach ( var filename in Directory.EnumerateFiles( Path.GetDirectoryName( file )! ).ToList() )
         {
             if ( filename.EndsWith( ".exe", StringComparison.OrdinalIgnoreCase ) )
             {
