@@ -1,11 +1,11 @@
 <Project>
 
-    <Import Sdk="PostSharp.Engineering.Sdk" Project="Assets.props" />
+    <Import Sdk="PostSharp.Engineering.Sdk" Project="MetalamaBranding.props" />
 
     <!-- Properties of NuGet packages-->
     <PropertyGroup>
         <Authors>PostSharp Technologies</Authors>
-        <PackageProjectUrl>https://github.com/postsharp/Metalama.Open.DependencyEmbedder</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/postsharp/Metalama.Open.Costura</PackageProjectUrl>
         <PackageTags></PackageTags>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
