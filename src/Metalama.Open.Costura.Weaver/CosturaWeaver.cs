@@ -9,13 +9,14 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Metalama.Open.Costura.Weaver;
 
 [MetalamaPlugIn]
 public class CosturaWeaver : IAspectWeaver
 {
-    public void Transform( AspectWeaverContext context )
+    public Task TransformAsync( AspectWeaverContext context )
     {
         var compilation = (CSharpCompilation) context.Compilation.Compilation;
 
@@ -34,7 +35,7 @@ public class CosturaWeaver : IAspectWeaver
                     null,
                     compilation.LanguageVersion.ToDisplayString() ) );
 
-            return;
+            return Task.CompletedTask;
         }
 
         var options = context.Project.Extension<CosturaOptions>();
@@ -79,5 +80,9 @@ public class CosturaWeaver : IAspectWeaver
                 SyntaxFactory.ParseSyntaxTree( Resources.Common, parseOptions, "__Costura.Common.cs", Encoding.UTF8 ),
                 SyntaxFactory.SyntaxTree( sourceTypeSyntax, parseOptions, $"__Costura.{assemblyLoaderInfo.SourceTypeName}.cs", Encoding.UTF8 ) )
             .WithAdditionalResources( resourceEmbedder.Resources.ToArray() );
+
+        return Task.CompletedTask;
     }
+
+    
 }
