@@ -83,6 +83,4 @@ public class CosturaWeaver : IAspectWeaver
 
         return Task.CompletedTask;
     }
-
-    
 }
