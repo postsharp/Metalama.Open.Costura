@@ -10,7 +10,7 @@
 
     <!-- Set the default versions of dependencies -->
     <PropertyGroup>
-        <PostSharpEngineeringVersion>1.0.87-preview</PostSharpEngineeringVersion>
+        <PostSharpEngineeringVersion>1.0.94-preview</PostSharpEngineeringVersion>
 		<MetalamaVersion>0.5.38-preview</MetalamaVersion>
 		<MetalamaVersion Condition="$(VcsBranch.StartsWith('dev'))">branch:master</MetalamaVersion>
 
