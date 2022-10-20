@@ -3,6 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <PackageId>Metalama.Open.Costura</PackageId>
+		<PackageDescription>A Metalama weaver that embeds dependent assemblies as managed resources. A fork of Costura.Fody.</PackageDescription>
     </PropertyGroup>
 
     <ItemGroup>

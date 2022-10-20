@@ -6,13 +6,15 @@
     <PropertyGroup>
         <Authors>PostSharp Technologies</Authors>
         <PackageProjectUrl>https://github.com/postsharp/Metalama.Open.Costura</PackageProjectUrl>
-        <PackageTags></PackageTags>
+        <PackageTags>PostSharp Metalama AOP</PackageTags>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <!-- Additional content of NuGet packages -->
     <ItemGroup>
+		<None Include="$(MSBuildThisFileDirectory)..\README.md" Visible="false" Pack="true" PackagePath="" />
         <None Include="$(MSBuildThisFileDirectory)..\LICENSE.md" Visible="false" Pack="true" PackagePath="" />
     </ItemGroup>
 
