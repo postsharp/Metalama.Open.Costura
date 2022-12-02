@@ -12,7 +12,7 @@
     <PropertyGroup>
         <PostSharpEngineeringVersion>1.0.101-preview</PostSharpEngineeringVersion>
 		<MetalamaVersion>branch:master</MetalamaVersion>
-		<MetalamaVersion Condition="$(VcsBranch.StartsWith('master'))">0.5.66-preview</MetalamaVersion>
+		<MetalamaVersion Condition="$(VcsBranch.StartsWith('master'))">0.5.67-preview</MetalamaVersion>
 
         <NewtonsoftJsonVersion>13.0.1</NewtonsoftJsonVersion>
         <SoothsilverRandomVersion>1.1.0</SoothsilverRandomVersion>
